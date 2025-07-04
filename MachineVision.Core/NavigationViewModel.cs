@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MachineVision.Core
 {
-    public class NavigateViewModel : BindableBase, INavigationAware
+    public class NavigationViewModel : BindableBase, INavigationAware
     {
         public virtual bool IsNavigationTarget(NavigationContext navigationContext)
         {
