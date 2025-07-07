@@ -9,9 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HalconDotNet" Version="19.11.0" />
     <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
     <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
     <PackageReference Include="Prism.DryIoc" Version="9.0.537" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="halcondotnet">
+      <HintPath>C:\halcon\HALCON-22.05-Progress\bin\dotnet35\halcondotnet.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

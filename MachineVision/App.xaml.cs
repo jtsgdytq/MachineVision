@@ -1,4 +1,5 @@
-﻿using MachineVision.Service;
+﻿using MachineVision.Model;
+using MachineVision.Service;
 using MachineVision.View;
 using MachineVision.ViewModel;
 using System.Configuration;
@@ -45,6 +46,8 @@ namespace MachineVision
             services.RegisterForNavigation<MainView, MainViewModel>();
 
             services.RegisterSingleton<INavigationMenuService, NavigationMenuService>();
+            services.RegisterForNavigation<DashboardView, DashboardViewModel>();
+
         }
     }
 

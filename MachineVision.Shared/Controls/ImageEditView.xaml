@@ -1,0 +1,33 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:MachineVision.Shared.Controls"
+    xmlns:halcon="clr-namespace:HalconDotNet;assembly=halcondotnet">
+
+
+    <Style TargetType="controls:ImageEditView">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:ImageEditView">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+
+                        </Grid.RowDefinitions>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button x:Name="PATH_RECT" Content="绘制矩形" />
+                        </StackPanel>
+
+
+
+
+                        <halcon:HSmartWindowControlWPF x:Name="PATH_SMART" Grid.Row="1" />
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

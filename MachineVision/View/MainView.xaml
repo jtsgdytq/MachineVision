@@ -10,8 +10,8 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodel="clr-namespace:MachineVision.ViewModel"
     Title="MainView"
-    Width="800"
-    Height="450"
+    Width="1200"
+    Height="800"
     d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
@@ -149,7 +149,7 @@
 
         <ContentControl
             x:Name="MainViewContentControl"
-            prism:RegionManager.RegionName="MainViewRegion"
-            Visibility="Collapsed" />
+            Grid.Row="1"
+            prism:RegionManager.RegionName="MainViewRegion" />
     </Grid>
 </Window>

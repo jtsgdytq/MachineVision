@@ -32,24 +32,25 @@ namespace MachineVision.Service
         {
             Items.Clear();
             Items.Add(new NavigationItems("", "All", "全部", "", new ObservableCollection<NavigationItems>()
-            {
-                 new NavigationItems("","TemplateMatch","模板匹配","",new ObservableCollection<NavigationItems>()
+             {
+                new NavigationItems("", "TemplateMatch", "模板匹配", "", new ObservableCollection<NavigationItems>()
                  {
-                      new NavigationItems("ShapeOutline","ShapeMatch","形状匹配","ShapeView"),
-                      new NavigationItems("Clouds","NccMacth", "相似性匹配","NccView"),
-                      new NavigationItems("ShapeOvalPlus","DeformationMatch","形变匹配","LocalDeformableView"),
+                    new NavigationItems("ShapeOutline", "ShapeMatch", "形状匹配", "ShapeView"),
+                    new NavigationItems("Cloud", "NccMatch", "相似性匹配", "NccView"),
+                    new NavigationItems("ShapeOvalPlus", "DeformationMatch", "形变匹配", "LocalDeformableView"),
                  }),
-                 new NavigationItems("","Measure", "比较测量","",new ObservableCollection<NavigationItems>()
-                 {
-                      new NavigationItems("Circle","Caliper","卡尺找圆","CircleMeasureView"),
+                    new NavigationItems("", "Measure", "比较测量", "", new ObservableCollection<NavigationItems>()
+                {
+                    new NavigationItems("Circle", "Caliper", "卡尺找圆", "CircleMeasureView"),
                  }),
-                 new NavigationItems("","Character","字符识别","",new ObservableCollection<NavigationItems>()
-                 {
-                      new NavigationItems("Barcode","BarCode", "一维码识别","BarCodeView"),
-                      new NavigationItems("Qrcode", "QrCode","二维码识别","QrCodeView"),
+                    new NavigationItems("", "Character", "字符识别", "", new ObservableCollection<NavigationItems>()
+                {
+                    new NavigationItems("Barcode", "BarCode", "一维码识别", "BarCodeView"),
+                    new NavigationItems("Qrcode", "QrCode", "二维码识别", "QrCodeView"),
                  })
-            }));
-            Items.Add(new NavigationItems("", "Setting", "系统设置", "SettingView"));
+             }));
+            Items.Add(new NavigationItems("Cog", "Setting", "系统设置", "SettingView"));
         }
+
     }
 }

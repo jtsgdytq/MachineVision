@@ -17,13 +17,15 @@ namespace MachineVision.ViewModel
         /// 构造函数
         /// </summary>
         /// <param name="navigationMenuService"></param>
-        public MainViewModel(INavigationMenuService navigationMenuService)
+        public MainViewModel(INavigationMenuService navigationMenuService,IRegionManager _regionManager)
         {
-                NavigationMenuService= navigationMenuService;//依赖注入菜单服务
+                 NavigationMenuService= navigationMenuService;//依赖注入菜单服务
+                 regionManager = _regionManager; //依赖注入区域管理器
                  NavigationMenuService.Inition();
 
                  NavigationCommand = new DelegateCommand<NavigationItems>(Navigation);
         }
+        private readonly IRegionManager regionManager;
 
 
         public INavigationMenuService NavigationMenuService { get; }
@@ -62,7 +64,7 @@ namespace MachineVision.ViewModel
             base.OnNavigatedTo(navigationContext);
             NavigationMenuService.Inition();
 
-            System.Diagnostics.Debug.WriteLine(NavigationMenuService);
+            regionManager.RequestNavigate("MainViewRegion", "DashboardView");
         }
 
     }
