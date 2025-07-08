@@ -13,55 +13,290 @@ namespace MachineVision.Shared.Controls
     {
         private HSmartWindowControlWPF hSmart;
         private HWindow hWindow;
-       
+        private DrawObjectInfo drawObjectInfo;
+
+
 
         public override void OnApplyTemplate()
         {
-            base.OnApplyTemplate(); 
+            base.OnApplyTemplate();
 
             if (GetTemplateChild("PATH_SMART") is HSmartWindowControlWPF HSmart)
             {
                 this.hSmart = HSmart;
                 this.hSmart.Loaded += HSmart_Loaded;
 
-              
-            }
-            //绘制矩形
-            if (GetTemplateChild("PATH_RECT") is Button BtnRect)
-            {
-                BtnRect.Click += async (s, e) =>
+                if (hSmart.ContextMenu != null)
                 {
-                    if (hWindow == null) return;
-
-                    await Task.Run(() =>
+                    foreach (var item in hSmart.ContextMenu.Items)
                     {
-                        try
+                        if (item is MenuItem menuItem)
                         {
-                            HOperatorSet.SetDraw(hWindow, "margin");
-                            HOperatorSet.SetLineWidth(hWindow, 2);
-                            HOperatorSet.SetColor(hWindow, "red");
-                            HOperatorSet.DrawRectangle1(hWindow,
-                                out HTuple row1,
-                                out HTuple column1,
-                                out HTuple row2,
-                                out HTuple column2);
-
-                            HOperatorSet.GenRectangle1(out HObject rectangle, row1, column1, row2, column2);
-
-                            Application.Current.Dispatcher.Invoke(() =>
+                            switch (menuItem.Name)
                             {
-                                hWindow.DispObj(rectangle);
-                            });
+                                case "MENU_RECT":
+                                    menuItem.Click += DrawRectangle;
+                                    break;
+                                case "MENU_CIRCLE":
+                                    menuItem.Click += DrawCircle;
+                                    break;
+                                case "MENU_ELLIPSE":
+                                    menuItem.Click += DrawEllipseAsync;
+                                    break;
+                            case "MENU_CLEAR":
+                                    menuItem.Click += (s, e) =>
+                                    {
+                                        if (hWindow != null)
+                                        {
+                                            hWindow.ClearWindow();
+                                            drawObjectInfo = null; // 清除绘图信息
+                                            hWindow.DispObj(Image); // 重新显示原图像
+                                        }
+                                    };
+                                    break;
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("绘图出错：" + ex.Message);
-                        }
-                    });
-                };
-
+                    }
+                }
             }
         }
+
+        private async void DrawCircle(object sender, RoutedEventArgs e)
+        {
+            if (hWindow == null) return;
+            await Task.Run(() =>
+            {
+                try
+                {
+                    HOperatorSet.SetDraw(hWindow, "margin");
+                    HOperatorSet.SetLineWidth(hWindow, 2);
+                    HOperatorSet.SetColor(hWindow, "blue");
+                    HOperatorSet.DrawCircle(hWindow,
+                        out HTuple row,
+                        out HTuple column,
+                        out HTuple radius);
+                    HOperatorSet.GenCircle(out HObject circle, row, column, radius);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        hWindow.DispObj(circle);
+                    });
+                    drawObjectInfo = new DrawObjectInfo
+                    {
+                        Type = DrawObjectInfo.ShapeType.Circle,
+                        HObject = circle,
+                        HTuples = new HTuple[] { row, column, radius }
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("绘图出错：" + ex.Message);
+                }
+            });
+
+        }
+
+        private async void DrawEllipseAsync(object sender, RoutedEventArgs e)
+        {
+            if (hWindow == null) return;
+            await Task.Run(() =>
+            {
+                try
+                {
+                    HOperatorSet.SetDraw(hWindow, "margin");
+                    HOperatorSet.SetLineWidth(hWindow, 2);
+                    HOperatorSet.SetColor(hWindow, "green");
+                    HOperatorSet.DrawEllipse(hWindow,
+                        out HTuple row,
+                        out HTuple column,
+                        out HTuple phi,
+                        out HTuple radius1,
+                        out HTuple radius2);
+                    HOperatorSet.GenEllipse(out HObject ellipse, row, column, phi, radius1, radius2);
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        hWindow.DispObj(ellipse);
+                    });
+
+                    drawObjectInfo = new DrawObjectInfo
+                    {
+                        Type = DrawObjectInfo.ShapeType.Ellipse,
+                        HObject = ellipse,
+                        HTuples = new HTuple[] { row, column, phi, radius1, radius2 }
+                    };
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("绘图出错：" + ex.Message);
+                }
+            });
+        }
+
+        private async void DrawRectangle(object sender, RoutedEventArgs e)
+        {
+            if (hWindow == null) return;
+            await Task.Run(() =>
+            {
+                try
+                {
+                    HOperatorSet.SetDraw(hWindow, "margin");
+                    HOperatorSet.SetLineWidth(hWindow, 2);
+                    HOperatorSet.SetColor(hWindow, "red");
+                    HOperatorSet.DrawRectangle1(hWindow, out HTuple r1, out HTuple c1, out HTuple r2, out HTuple c2);
+                    HOperatorSet.GenRectangle1(out HObject rect, r1, c1, r2, c2);
+
+                    Application.Current.Dispatcher.Invoke(() => hWindow.DispObj(rect));
+
+                    drawObjectInfo = new DrawObjectInfo
+                    {
+                        Type = DrawObjectInfo.ShapeType.Rectangle,
+                        HObject = rect,
+                        HTuples = new[] { r1, c1, r2, c2 }
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("绘图出错：" + ex.Message);
+                }
+            });
+        }
+
+
+
+        //public override void OnApplyTemplate()
+        //{
+        //    base.OnApplyTemplate(); 
+
+        //    if (GetTemplateChild("PATH_SMART") is HSmartWindowControlWPF HSmart)
+        //    {
+        //        this.hSmart = HSmart;
+        //        this.hSmart.Loaded += HSmart_Loaded;
+
+
+        //    }
+        //    //绘制矩形
+        //    if (GetTemplateChild("PATH_RECT") is Button BtnRect)
+        //    {
+        //        BtnRect.Click += async (s, e) =>
+        //        {
+        //            if (hWindow == null) return;
+
+        //            await Task.Run(() =>
+        //            {
+        //                try
+        //                {
+        //                    HOperatorSet.SetDraw(hWindow, "margin");
+        //                    HOperatorSet.SetLineWidth(hWindow, 2);
+        //                    HOperatorSet.SetColor(hWindow, "red");
+        //                    HOperatorSet.DrawRectangle1(hWindow,
+        //                        out HTuple row1,
+        //                        out HTuple column1,
+        //                        out HTuple row2,
+        //                        out HTuple column2);
+
+        //                    HOperatorSet.GenRectangle1(out HObject rectangle, row1, column1, row2, column2);
+
+        //                    Application.Current.Dispatcher.Invoke(() =>
+        //                    {
+        //                        hWindow.DispObj(rectangle);
+        //                    });
+        //                    drawObjectInfo = new DrawObjectInfo
+        //                    {
+        //                        Type = DrawObjectInfo.ShapeType.Rectangle,
+        //                        HObject = rectangle,
+        //                        HTuples = new HTuple[] { row1, column1, row2, column2 }
+        //                    };
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    Console.WriteLine("绘图出错：" + ex.Message);
+        //                }
+        //            });
+        //        };
+
+        //    }
+        //    if(GetTemplateChild("PATH_CIRCLE") is Button BtnCircle)
+        //    {
+        //        BtnCircle.Click += async (s, e) =>
+        //        {
+        //            if (hWindow == null) return;
+        //            await Task.Run(() =>
+        //            {
+        //                try
+        //                {
+        //                    HOperatorSet.SetDraw(hWindow, "margin");
+        //                    HOperatorSet.SetLineWidth(hWindow, 2);
+        //                    HOperatorSet.SetColor(hWindow, "blue");
+        //                    HOperatorSet.DrawCircle(hWindow,
+        //                        out HTuple row,
+        //                        out HTuple column,
+        //                        out HTuple radius);
+        //                    HOperatorSet.GenCircle(out HObject circle, row, column, radius);
+        //                    Application.Current.Dispatcher.Invoke(() =>
+        //                    {
+        //                        hWindow.DispObj(circle);
+        //                    });
+        //                    drawObjectInfo = new DrawObjectInfo
+        //                    {
+        //                        Type = DrawObjectInfo.ShapeType.Circle,
+        //                        HObject = circle,
+        //                        HTuples = new HTuple[] { row, column, radius }
+        //                    };
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    Console.WriteLine("绘图出错：" + ex.Message);
+        //                }
+        //            });
+        //        };
+        //    }
+        //    if (GetTemplateChild("PATH_ELLIPSE") is Button BtnEllipse)
+        //    {
+        //        BtnEllipse.Click += async (s, e) =>
+        //        {
+        //            if (hWindow == null) return;
+        //            await Task.Run(() =>
+        //            {
+        //                try
+        //                {
+        //                    HOperatorSet.SetDraw(hWindow, "margin");
+        //                    HOperatorSet.SetLineWidth(hWindow, 2);
+        //                    HOperatorSet.SetColor(hWindow, "green");
+        //                    HOperatorSet.DrawEllipse(hWindow,
+        //                        out HTuple row,
+        //                        out HTuple column,
+        //                        out HTuple phi,
+        //                        out HTuple radius1,
+        //                        out HTuple radius2);
+        //                    HOperatorSet.GenEllipse(out HObject ellipse, row, column, phi, radius1, radius2);
+
+        //                    Application.Current.Dispatcher.Invoke(() =>
+        //                    {
+        //                        hWindow.DispObj(ellipse);
+        //                    });
+
+        //                    drawObjectInfo = new DrawObjectInfo
+        //                    {
+        //                        Type = DrawObjectInfo.ShapeType.Ellipse,
+        //                        HObject = ellipse,
+        //                        HTuples = new HTuple[] { row, column, phi, radius1, radius2 }
+        //                    };
+
+
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    Console.WriteLine("绘图出错：" + ex.Message);
+        //                }
+        //            });
+        //        };
+        //    }
+
+
+
+        //}
 
         private void HSmart_Loaded(object sender, RoutedEventArgs e)
         {

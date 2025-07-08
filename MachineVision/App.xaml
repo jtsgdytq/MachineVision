@@ -14,10 +14,12 @@
                     BaseTheme="Dark"  
                     ColorAdjustment="{materialDesign:ColorAdjustment}"  
                     PrimaryColor="DeepPurple"  
-                    SecondaryColor="Amber" />  
-              
-                <ResourceDictionary Source="pack://application:,,,/MachineVision.Shared;component/Themes/Genic.xaml" />  
-            </ResourceDictionary.MergedDictionaries>  
+                    SecondaryColor="Amber" />
+
+                <ResourceDictionary Source="pack://application:,,,/MachineVision.Shared;component/Themes/Genic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>  
     </Application.Resources>  
 </prism:PrismApplication>

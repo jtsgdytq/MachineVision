@@ -12,7 +12,7 @@
     Title="MainView"
     Width="1200"
     Height="800"
-    d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
+   
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <Grid>

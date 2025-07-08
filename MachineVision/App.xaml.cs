@@ -47,6 +47,7 @@ namespace MachineVision
 
             services.RegisterSingleton<INavigationMenuService, NavigationMenuService>();
             services.RegisterForNavigation<DashboardView,DashboardViewModel>();
+            services.RegisterForNavigation<SettingView, SettingViewModel>();
 
         }
 

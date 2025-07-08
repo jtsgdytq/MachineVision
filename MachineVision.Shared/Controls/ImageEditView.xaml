@@ -10,24 +10,26 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageEditView">
                     <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition  Height="auto"/>
-                            <RowDefinition />
-
-                        </Grid.RowDefinitions>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Button x:Name="PATH_RECT" Content="绘制矩形" />
-                        </StackPanel>
 
 
 
-
-                        <halcon:HSmartWindowControlWPF x:Name="PATH_SMART" Grid.Row="1" />
+                        <halcon:HSmartWindowControlWPF x:Name="PATH_SMART">
+                            <halcon:HSmartWindowControlWPF.ContextMenu>
+                                <ContextMenu Background="White" Foreground="Black">
+                                    <MenuItem x:Name="MENU_RECT" Header="绘制矩形" />
+                                    <MenuItem x:Name="MENU_CIRCLE" Header="绘制圆形" />
+                                    <MenuItem x:Name="MENU_ELLIPSE" Header="绘制椭圆" />
+                                    <MenuItem x:Name="MENU_CLEAR" Header="清空所有" />
+                                    
+                                </ContextMenu>
+                            </halcon:HSmartWindowControlWPF.ContextMenu>
+                        </halcon:HSmartWindowControlWPF>
 
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
 
 </ResourceDictionary>

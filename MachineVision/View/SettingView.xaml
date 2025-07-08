@@ -1,0 +1,112 @@
+﻿<UserControl
+    x:Class="MachineVision.View.SettingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:MachineVision.View"
+    xmlns:local1="clr-namespace:MachineVision.Service"
+    xmlns:materialDesignColors="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+
+        <local1:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <DataTemplate x:Key="SwatchColorTemplate" DataType="{x:Type Color}">
+            <Button
+                Width="40"
+                Height="40"
+                Margin="1"
+                Background="{Binding Converter={StaticResource ColorToBrushConverter}}"
+                BorderThickness="0"
+                Command="{Binding DataContext.ChangeHueCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                CommandParameter="{Binding}" />
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            Grid.Column="0"
+            Width="200"
+            HorizontalAlignment="Left">
+            <Border
+                Margin="5,10"
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="5">
+                <ComboBox
+                    HorizontalContentAlignment="Center"
+                    FontSize="20"
+                    SelectedIndex="0">
+                    <ComboBoxItem HorizontalContentAlignment="Center">中文</ComboBoxItem>
+                    <ComboBoxItem HorizontalContentAlignment="Center">English</ComboBoxItem>
+                </ComboBox>
+            </Border>
+
+            <Border
+                Margin="5,10"
+                BorderBrush="Black"
+                BorderThickness="1"
+                CornerRadius="5">
+                <ComboBox
+                    HorizontalContentAlignment="Center"
+                    FontSize="20"
+                    SelectedIndex="0">
+                    <ComboBoxItem HorizontalContentAlignment="Center">Light</ComboBoxItem>
+                    <ComboBoxItem HorizontalContentAlignment="Center">Dark</ComboBoxItem>
+                </ComboBox>
+            </Border>
+
+            <Button
+                Margin="5"
+                Content="保存设置"
+                FontSize="20" />
+        </StackPanel>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalScrollBarVisibility="Hidden">
+            <StackPanel
+                Margin="15"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
+                <TextBlock FontSize="16" Text="{DynamicResource CurrentLanguage}" />
+
+
+                <TextBlock FontSize="16" Text="{DynamicResource Skin}" />
+                <StackPanel Margin="0,10" Orientation="Horizontal">
+                    <TextBlock Text="浅色" />
+                    <ToggleButton Margin="8,0,16,0" IsChecked="{Binding IsDarkTheme}" />
+                    <TextBlock Text="深色" />
+                </StackPanel>
+
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Swatches}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type materialDesignColors:ISwatch}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Width="80"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Name}" />
+                                <ItemsControl ItemTemplate="{StaticResource SwatchColorTemplate}" ItemsSource="{Binding Hues}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <VirtualizingStackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>
