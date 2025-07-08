@@ -18,9 +18,9 @@ namespace MachineVision.TemplateMatch.Views
     /// <summary>
     /// DrawShape.xaml 的交互逻辑
     /// </summary>
-    public partial class DrawShape : UserControl
+    public partial class DrawShapeView : UserControl
     {
-        public DrawShape()
+        public DrawShapeView()
         {
             InitializeComponent();
         }

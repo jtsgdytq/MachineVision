@@ -11,7 +11,7 @@
                 <ControlTemplate TargetType="controls:ImageEditView">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition />
+                            <RowDefinition  Height="auto"/>
                             <RowDefinition />
 
                         </Grid.RowDefinitions>

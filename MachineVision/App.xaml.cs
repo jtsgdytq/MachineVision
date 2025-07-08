@@ -46,7 +46,16 @@ namespace MachineVision
             services.RegisterForNavigation<MainView, MainViewModel>();
 
             services.RegisterSingleton<INavigationMenuService, NavigationMenuService>();
-            services.RegisterForNavigation<DashboardView, DashboardViewModel>();
+            services.RegisterForNavigation<DashboardView,DashboardViewModel>();
+
+        }
+
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<TemplateMatch.TemplateMatchModel>();
+            base.ConfigureModuleCatalog(moduleCatalog);
+
 
         }
     }
