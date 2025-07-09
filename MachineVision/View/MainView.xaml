@@ -12,7 +12,6 @@
     Title="MainView"
     Width="1200"
     Height="800"
-   
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <Grid>
@@ -30,10 +29,18 @@
 
                 <TextBlock
                     Margin="10,15,15,15"
-                    FontSize="22"
+                    Background="Transparent"
+                    Cursor="Hand"
+                    FontSize="30"
                     FontWeight="Bold"
                     Foreground="White"
-                    Text="MachineVision" />
+                    Text="MachineVision">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding NavigationHomeCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBlock>
 
                 <ListBox
                     x:Name="listMenuBox"

@@ -24,6 +24,11 @@ namespace MachineVision.ViewModel
                  NavigationMenuService.Inition();
 
                  NavigationCommand = new DelegateCommand<NavigationItems>(Navigation);
+                    NavigationHomeCommand = new DelegateCommand(() =>
+                    {
+                        IsOpenDialog = false;
+                        regionManager.RequestNavigate("MainViewRegion", "DashboardView");
+                    });
         }
         private readonly IRegionManager regionManager;
 
@@ -68,6 +73,8 @@ namespace MachineVision.ViewModel
 
             regionManager.RequestNavigate("MainViewRegion", "DashboardView");
         }
+
+        public DelegateCommand NavigationHomeCommand { get;}
 
     }
 }

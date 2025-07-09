@@ -50,7 +50,13 @@ namespace MachineVision.Shared.Controls
                                         {
                                             hWindow.ClearWindow();
                                             drawObjectInfo = null; // 清除绘图信息
-                                            hWindow.DispObj(Image); // 重新显示原图像
+                                            if (Image != null)
+                                            {
+                                                // 如果有原图像，重新显示
+                                                hWindow.DispObj(Image);
+                                            }
+                                            
+
                                         }
                                     };
                                     break;

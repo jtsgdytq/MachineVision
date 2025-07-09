@@ -19,6 +19,7 @@ namespace MachineVision.TemplateMatch
         public void RegisterTypes(IContainerRegistry service)
         {
            service.RegisterForNavigation<DrawShapeView, DrawShapeViewModel>();
+            service.RegisterForNavigation<ShapeView, ShapeViewModel>();
         }
     }
 }

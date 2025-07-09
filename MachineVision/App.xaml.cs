@@ -1,4 +1,6 @@
-﻿using MachineVision.Model;
+﻿using MachineVision.Core.TemplateMatch;
+using MachineVision.Core.TemplateMatch.TemplateModel;
+using MachineVision.Model;
 using MachineVision.Service;
 using MachineVision.View;
 using MachineVision.ViewModel;
@@ -48,6 +50,9 @@ namespace MachineVision
             services.RegisterSingleton<INavigationMenuService, NavigationMenuService>();
             services.RegisterForNavigation<DashboardView,DashboardViewModel>();
             services.RegisterForNavigation<SettingView, SettingViewModel>();
+
+            //注册模板匹配服务
+            services.Register<ITemplateMatchService,ShapeMatchService>(nameof(TemplateMatchType.ShapeMatch));
 
         }
 
