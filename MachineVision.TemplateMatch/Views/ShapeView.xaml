@@ -30,9 +30,11 @@
                 <ColumnDefinition Width="0.3*" />
             </Grid.ColumnDefinitions>
 
-            <TabControl Grid.Column="1" Margin="6,5,6,0">
+            <TabControl Grid.Column="1" Margin="6,5,6,0" Cursor="">
                 <!--<TabControl.Resources>
-                    --><!--  重写 TabItem 样式，强制黑色字体  --><!--
+                -->
+                <!--  重写 TabItem 样式，强制黑色字体  -->
+                <!--
                     <Style BasedOn="{StaticResource MaterialDesignTabItem}" TargetType="TabItem">
                         <Setter Property="Foreground" Value="Black" />
                         <Setter Property="FontSize" Value="16" />
@@ -67,209 +69,223 @@
                 </TabControl.Resources>-->
                 <!--  TabControl 中的 TabItem  -->
                 <TabItem Header="基本参数">
-                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <StackPanel>
-                            <Expander Background="Transparent" Header="图像源">
-                                <Button Command="{Binding LoadImageCommand}" Content="加载图片" />
-                            </Expander>
-                            <Expander Background="Transparent" Header="ROI区域">
-                                <Button Command="{Binding DrawROICommand}" Content="绘制ROI" />
-                            </Expander>
-                            <Expander Background="Transparent" Header="模板匹配参数">
+                    <Grid Cursor="">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.9*" />
+                            <RowDefinition Height="0.1*" />
+                        </Grid.RowDefinitions>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden"  VerticalAlignment="Top" >
+                            <StackPanel>
+                                <Expander Background="Transparent" Header="图像源">
+                                    <Button Command="{Binding LoadImageCommand}" Content="加载图片" />
+                                </Expander>
+                                <Expander Background="Transparent" Header="ROI区域">
+                                    <Button Command="{Binding DrawROICommand}" Content="绘制ROI" />
+                                </Expander>
+                                <Expander Background="Transparent" Header="模板匹配参数">
 
-                                <StackPanel>
-                                    <TextBlock Text="图像金字塔：Numberlever" />
-                                    <ComboBox SelectedIndex="0" Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                                        <ComboBoxItem Content="auto" />
-                                        <ComboBoxItem Content="1" />
-                                        <ComboBoxItem Content="2" />
-                                        <ComboBoxItem Content="3" />
-                                        <ComboBoxItem Content="4" />
-                                        <ComboBoxItem Content="5" />
-                                        <ComboBoxItem Content="6" />
-                                        <ComboBoxItem Content="7" />
-                                        <ComboBoxItem Content="8" />
-                                        <ComboBoxItem Content="9" />
-                                        <ComboBoxItem Content="10" />
-                                    </ComboBox>
-                                    <TextBlock Text="起始角度：AngleStart" />
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="0" />
-                                    <TextBlock Text="角度范围：AngleExtern" />
-                                    <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="360" />
-                                    <TextBlock Text="角度步长：AngleStep" />
-                                    <ComboBox
-                                        Margin="0,5"
-                                        Padding="5"
-                                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                        Text="{Binding MatchService.TemplateParameter.AngleStep}">
-                                        <ComboBoxItem>auto</ComboBoxItem>
-                                        <ComboBoxItem>0.01</ComboBoxItem>
-                                        <ComboBoxItem>0.03</ComboBoxItem>
-                                        <ComboBoxItem>0.05</ComboBoxItem>
-                                        <ComboBoxItem>0.06</ComboBoxItem>
-                                        <ComboBoxItem>0.08</ComboBoxItem>
-                                    </ComboBox>
-                                    <TextBlock Text="Optimization" />
-                                    <ComboBox
-                                        Margin="0,5"
-                                        Padding="5"
-                                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                        Text="{Binding MatchService.TemplateParameter.Optimization}">
-                                        <ComboBoxItem>auto</ComboBoxItem>
-                                        <ComboBoxItem>none</ComboBoxItem>
-                                        <ComboBoxItem>point_reduction_low</ComboBoxItem>
-                                        <ComboBoxItem>point_reduction_medium</ComboBoxItem>
-                                        <ComboBoxItem>point_reduction_high</ComboBoxItem>
-                                        <ComboBoxItem>pregeneration</ComboBoxItem>
-                                        <ComboBoxItem>no_pregeneration</ComboBoxItem>
-                                    </ComboBox>
-                                    <TextBlock Text="Metric" />
-                                    <ComboBox
-                                        Margin="0,5"
-                                        Padding="5"
-                                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                        Text="{Binding MatchService.TemplateParameter.Metric}">
-                                        <ComboBoxItem>use_polarity</ComboBoxItem>
-                                        <ComboBoxItem>ignore_global_polarity</ComboBoxItem>
-                                        <ComboBoxItem>ignore_local_polarity</ComboBoxItem>
-                                        <ComboBoxItem>ignore_color_polarity</ComboBoxItem>
-                                    </ComboBox>
-                                    <TextBlock Text="Contrast" />
-                                    <ComboBox
-                                        Margin="0,5"
-                                        Padding="5"
-                                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                        Text="{Binding MatchService.TemplateParameter.Contrast}">
-                                        <ComboBoxItem>auto</ComboBoxItem>
-                                        <ComboBoxItem>auto_contrast</ComboBoxItem>
-                                        <ComboBoxItem>auto_contrast_hyst</ComboBoxItem>
-                                        <ComboBoxItem>auto_min_size</ComboBoxItem>
-                                        <ComboBoxItem>10</ComboBoxItem>
-                                        <ComboBoxItem>20</ComboBoxItem>
-                                        <ComboBoxItem>30</ComboBoxItem>
-                                        <ComboBoxItem>40</ComboBoxItem>
-                                        <ComboBoxItem>60</ComboBoxItem>
-                                        <ComboBoxItem>80</ComboBoxItem>
-                                    </ComboBox>
-                                    <TextBlock Text="MinContrast" />
-                                    <ComboBox
-                                        Margin="0,5"
-                                        Padding="5"
-                                        Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                        Text="{Binding MatchService.TemplateParameter.MinContrast}">
-                                        <ComboBoxItem>auto</ComboBoxItem>
-                                        <ComboBoxItem>1</ComboBoxItem>
-                                        <ComboBoxItem>2</ComboBoxItem>
-                                        <ComboBoxItem>3</ComboBoxItem>
-                                        <ComboBoxItem>4</ComboBoxItem>
-                                        <ComboBoxItem>5</ComboBoxItem>
-                                        <ComboBoxItem>7</ComboBoxItem>
-                                        <ComboBoxItem>10</ComboBoxItem>
-                                        <ComboBoxItem>20</ComboBoxItem>
-                                        <ComboBoxItem>30</ComboBoxItem>
-                                        <ComboBoxItem>40</ComboBoxItem>
-                                    </ComboBox>
-                                    <Button
-                                        Command="{Binding AddTemplateCommand}"
-                                        Content="添加模板"
-                                        Cursor="Hand" />
-                                </StackPanel>
-
-
-
-                            </Expander>
-
-                            <Expander Background="Transparent">
-                                <Expander.Header>
-                                    <Grid>
-                                        <TextBlock FontSize="16" Text="运行参数" />
-                                    </Grid>
-                                </Expander.Header>
-                                <Expander.Content>
                                     <StackPanel>
-                                        <TextBlock Text="AngleStart" />
-                                        <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.RunParameter.AngleStart}" />
-                                        <TextBlock Text="AngleExtent" />
-                                        <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.RunParameter.AngleExtent}" />
-                                        <TextBlock Text="MinScore" />
-                                        <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.RunParameter.MinScore}" />
-                                        <TextBlock Text="NumMatches" />
-                                        <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.RunParameter.NumMatches}" />
-                                        <TextBlock Text="MaxOverlap" />
-                                        <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.RunParameter.MaxOverlap}" />
-                                        <TextBlock Text="SubPixel" />
+                                        <TextBlock Text="图像金字塔：Numberlever" />
                                         <ComboBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                            Text="{Binding MatchService.RunParameter.SubPixel}">
-                                            <ComboBoxItem>none</ComboBoxItem>
-                                            <ComboBoxItem>none</ComboBoxItem>
-                                            <ComboBoxItem>interpolation</ComboBoxItem>
-                                            <ComboBoxItem>least_squares</ComboBoxItem>
-                                            <ComboBoxItem>least_squares_high</ComboBoxItem>
-                                            <ComboBoxItem>least_squares_very_high</ComboBoxItem>
-                                            <ComboBoxItem>max_deformation 1</ComboBoxItem>
-                                            <ComboBoxItem>max_deformation 2</ComboBoxItem>
-                                            <ComboBoxItem>max_deformation 3</ComboBoxItem>
-                                            <ComboBoxItem>max_deformation 4</ComboBoxItem>
-                                            <ComboBoxItem>max_deformation 5</ComboBoxItem>
-                                            <ComboBoxItem>max_deformation 6</ComboBoxItem>
+                                                Padding="5"
+                                                SelectedIndex="0"
+                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                Text="{Binding MatchService.CreateShape.NumLevels}">
+                                            <ComboBoxItem Content="auto" />
+                                            <ComboBoxItem Content="1" />
+                                            <ComboBoxItem Content="2" />
+                                            <ComboBoxItem Content="3" />
+                                            <ComboBoxItem Content="4" />
+                                            <ComboBoxItem Content="5" />
+                                            <ComboBoxItem Content="6" />
+                                            <ComboBoxItem Content="7" />
+                                            <ComboBoxItem Content="8" />
+                                            <ComboBoxItem Content="9" />
+                                            <ComboBoxItem Content="10" />
                                         </ComboBox>
-                                        <TextBlock Text="NumLevels" />
+                                        <TextBlock Text="起始角度：AngleStart" />
+                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MatchService.CreateShape.AngleStart}"  Padding="5"/>
+                                        <TextBlock Text="角度范围：AngleExtent" />
+                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MatchService.CreateShape.AngleExtent}"  Padding="5"/>
+                                        <TextBlock Text="角度步长：AngleStep" />
                                         <ComboBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                            Text="{Binding MatchService.RunParameter.NumLevels}">
-                                            <ComboBoxItem>0</ComboBoxItem>
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                Text="{Binding MatchService.CreateShape.AngleStep}">
+                                            <ComboBoxItem>auto</ComboBoxItem>
+                                            <ComboBoxItem>0.01</ComboBoxItem>
+                                            <ComboBoxItem>0.03</ComboBoxItem>
+                                            <ComboBoxItem>0.05</ComboBoxItem>
+                                            <ComboBoxItem>0.06</ComboBoxItem>
+                                            <ComboBoxItem>0.08</ComboBoxItem>
+                                        </ComboBox>
+                                        <TextBlock Text="Optimization" />
+                                        <ComboBox
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                Text="{Binding MatchService.CreateShape.Optimization}">
+                                            <ComboBoxItem>auto</ComboBoxItem>
+                                            <ComboBoxItem>none</ComboBoxItem>
+                                            <ComboBoxItem>point_reduction_low</ComboBoxItem>
+                                            <ComboBoxItem>point_reduction_medium</ComboBoxItem>
+                                            <ComboBoxItem>point_reduction_high</ComboBoxItem>
+                                            <ComboBoxItem>pregeneration</ComboBoxItem>
+                                            <ComboBoxItem>no_pregeneration</ComboBoxItem>
+                                        </ComboBox>
+                                        <TextBlock Text="Metric" />
+                                        <ComboBox
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                Text="{Binding MatchService.CreateShape.Metric}">
+                                            <ComboBoxItem>use_polarity</ComboBoxItem>
+                                            <ComboBoxItem>ignore_global_polarity</ComboBoxItem>
+                                            <ComboBoxItem>ignore_local_polarity</ComboBoxItem>
+                                            <ComboBoxItem>ignore_color_polarity</ComboBoxItem>
+                                        </ComboBox>
+                                        <TextBlock Text="Contrast" />
+                                        <ComboBox
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                Text="{Binding MatchService.CreateShape.Contrast}">
+                                            <ComboBoxItem>auto</ComboBoxItem>
+                                            <ComboBoxItem>auto_contrast</ComboBoxItem>
+                                            <ComboBoxItem>auto_contrast_hyst</ComboBoxItem>
+                                            <ComboBoxItem>auto_min_size</ComboBoxItem>
+                                            <ComboBoxItem>10</ComboBoxItem>
+                                            <ComboBoxItem>20</ComboBoxItem>
+                                            <ComboBoxItem>30</ComboBoxItem>
+                                            <ComboBoxItem>40</ComboBoxItem>
+                                            <ComboBoxItem>60</ComboBoxItem>
+                                            <ComboBoxItem>80</ComboBoxItem>
+                                        </ComboBox>
+                                        <TextBlock Text="MinContrast" />
+                                        <ComboBox
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                Text="{Binding MatchService.CreateShape.MinContrast}">
+                                            <ComboBoxItem>auto</ComboBoxItem>
                                             <ComboBoxItem>1</ComboBoxItem>
                                             <ComboBoxItem>2</ComboBoxItem>
                                             <ComboBoxItem>3</ComboBoxItem>
                                             <ComboBoxItem>4</ComboBoxItem>
                                             <ComboBoxItem>5</ComboBoxItem>
-                                            <ComboBoxItem>6</ComboBoxItem>
                                             <ComboBoxItem>7</ComboBoxItem>
-                                            <ComboBoxItem>8</ComboBoxItem>
-                                            <ComboBoxItem>9</ComboBoxItem>
+                                            <ComboBoxItem>10</ComboBoxItem>
+                                            <ComboBoxItem>20</ComboBoxItem>
+                                            <ComboBoxItem>30</ComboBoxItem>
+                                            <ComboBoxItem>40</ComboBoxItem>
                                         </ComboBox>
-                                        <TextBlock Text="Greediness" />
-                                        <TextBox
+                                        <Button
+                                                Command="{Binding AddTemplateCommand}"
+                                                Content="添加模板"
+                                                Cursor="Hand" />
+                                    </StackPanel>
+
+
+
+
+
+
+                                </Expander>
+
+                                <Expander Background="Transparent">
+                                    <Expander.Header>
+                                        <Grid>
+                                            <TextBlock FontSize="16" Text="运行参数" />
+                                        </Grid>
+                                    </Expander.Header>
+                                    <Expander.Content>
+                                        <StackPanel>
+                                            <TextBlock Text="AngleStart" />
+                                            <TextBox
                                             Margin="0,5"
                                             Padding="5"
                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.RunParameter.Greediness}" />
-                                    </StackPanel>
-                                </Expander.Content>
-                            </Expander>
-                            <Button Command="{Binding RunCommand}" Content="运行" />
-                        </StackPanel>
-                    </ScrollViewer>
+                                            Text="{Binding MatchService.FindShape.AngleStart}" />
+                                            <TextBlock Text="AngleExtent" />
+                                            <TextBox
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            Text="{Binding MatchService.FindShape.AngleExtent}" />
+                                            <TextBlock Text="MinScore" />
+                                            <TextBox
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            Text="{Binding MatchService.FindShape.MinScore}" />
+                                            <TextBlock Text="NumMatches" />
+                                            <TextBox
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            Text="{Binding MatchService.FindShape.NumMatches}" />
+                                            <TextBlock Text="MaxOverlap" />
+                                            <TextBox
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            Text="{Binding MatchService.FindShape.MaxOverlap}" />
+                                            <TextBlock Text="SubPixel" />
+                                            <ComboBox
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding MatchService.FindShape.SubPixel}">
+                                                <ComboBoxItem>none</ComboBoxItem>
+                                                <ComboBoxItem>none</ComboBoxItem>
+                                                <ComboBoxItem>interpolation</ComboBoxItem>
+                                                <ComboBoxItem>least_squares</ComboBoxItem>
+                                                <ComboBoxItem>least_squares_high</ComboBoxItem>
+                                                <ComboBoxItem>least_squares_very_high</ComboBoxItem>
+                                                <ComboBoxItem>max_deformation 1</ComboBoxItem>
+                                                <ComboBoxItem>max_deformation 2</ComboBoxItem>
+                                                <ComboBoxItem>max_deformation 3</ComboBoxItem>
+                                                <ComboBoxItem>max_deformation 4</ComboBoxItem>
+                                                <ComboBoxItem>max_deformation 5</ComboBoxItem>
+                                                <ComboBoxItem>max_deformation 6</ComboBoxItem>
+                                            </ComboBox>
+                                            <TextBlock Text="NumLevels" />
+                                            <ComboBox
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding MatchService.FindShape.NumLevels}">
+                                                <ComboBoxItem>0</ComboBoxItem>
+                                                <ComboBoxItem>1</ComboBoxItem>
+                                                <ComboBoxItem>2</ComboBoxItem>
+                                                <ComboBoxItem>3</ComboBoxItem>
+                                                <ComboBoxItem>4</ComboBoxItem>
+                                                <ComboBoxItem>5</ComboBoxItem>
+                                                <ComboBoxItem>6</ComboBoxItem>
+                                                <ComboBoxItem>7</ComboBoxItem>
+                                                <ComboBoxItem>8</ComboBoxItem>
+                                                <ComboBoxItem>9</ComboBoxItem>
+                                            </ComboBox>
+                                            <TextBlock Text="Greediness" />
+                                            <TextBox
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            Text="{Binding MatchService.FindShape.Greediness}" />
+                                        </StackPanel>
+                                    </Expander.Content>
+                                </Expander>
 
-
+                            </StackPanel>
+                        </ScrollViewer>
+                      
+                            <Button Command="{Binding RunCommand}" Content="运行"  Grid.Row="1" Margin="5,5"/>
+                       
+                    </Grid>
 
                 </TabItem>
-                <TabItem Header="结果显示" Cursor="">
+                <TabItem Cursor="" Header="结果显示">
                     <StackPanel Margin="10">
                         <DockPanel LastChildFill="False">
                             <TextBlock FontSize="14" Text="显示文本" />
@@ -297,7 +313,10 @@
                     <RowDefinition Height="0.3*" />
                 </Grid.RowDefinitions>
 
-                <controls:ImageEditView Grid.Row="0" />
+                <controls:ImageEditView
+                    Grid.Row="0"
+                    DrawObjectInfo="{Binding DrawObjectInfo}"
+                    Image="{Binding Image}" />
                 <!--  结果显示  -->
 
                 <DataGrid

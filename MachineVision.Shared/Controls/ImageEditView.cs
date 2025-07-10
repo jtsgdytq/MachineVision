@@ -1,4 +1,5 @@
 ﻿using HalconDotNet;
+using MachineVision.Shared.EventAggregator;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,32 @@ namespace MachineVision.Shared.Controls
 {
     public class ImageEditView : Control
     {
+
+        private IEventAggregator DrawEvent;
+
+        public ImageEditView()
+        {
+            this.Loaded += (s, e) =>
+            {
+                if (DrawEvent == null)
+                {
+                    DrawEvent = Prism.Ioc.ContainerLocator.Container.Resolve<IEventAggregator>();
+                }
+            };
+        }
+
         private HSmartWindowControlWPF hSmart;
         private HWindow hWindow;
-        private DrawObjectInfo drawObjectInfo;
+
+        public DrawObjectInfo DrawObjectInfo
+        {
+            get => (DrawObjectInfo)GetValue(DrawObjectInfoProperty);
+            set => SetValue(DrawObjectInfoProperty, value);
+        }
+
+        public static readonly DependencyProperty DrawObjectInfoProperty =
+            DependencyProperty.Register(nameof(DrawObjectInfo), typeof(DrawObjectInfo), typeof(ImageEditView), new PropertyMetadata(null));
+
 
 
 
@@ -49,7 +73,7 @@ namespace MachineVision.Shared.Controls
                                         if (hWindow != null)
                                         {
                                             hWindow.ClearWindow();
-                                            drawObjectInfo = null; // 清除绘图信息
+                                             this.DrawObjectInfo = null; // 清除绘图信息
                                             if (Image != null)
                                             {
                                                 // 如果有原图像，重新显示
@@ -85,13 +109,15 @@ namespace MachineVision.Shared.Controls
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         hWindow.DispObj(circle);
+                        this.DrawObjectInfo = new DrawObjectInfo
+                        {
+                            Type = DrawObjectInfo.ShapeType.Circle,
+                            HObject = circle,
+                            HTuples = new HTuple[] { row, column, radius }
+                        };
+                        DrawEvent.GetEvent<DrawObjectEvent>().Publish(this.DrawObjectInfo);
                     });
-                    drawObjectInfo = new DrawObjectInfo
-                    {
-                        Type = DrawObjectInfo.ShapeType.Circle,
-                        HObject = circle,
-                        HTuples = new HTuple[] { row, column, radius }
-                    };
+
                 }
                 catch (Exception ex)
                 {
@@ -122,14 +148,16 @@ namespace MachineVision.Shared.Controls
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         hWindow.DispObj(ellipse);
+                        this.DrawObjectInfo = new DrawObjectInfo
+                        {
+                            Type = DrawObjectInfo.ShapeType.Ellipse,
+                            HObject = ellipse,
+                            HTuples = new HTuple[] { row, column, phi, radius1, radius2 }
+                        };
+                        DrawEvent.GetEvent<DrawObjectEvent>().Publish(this.DrawObjectInfo);
                     });
 
-                    drawObjectInfo = new DrawObjectInfo
-                    {
-                        Type = DrawObjectInfo.ShapeType.Ellipse,
-                        HObject = ellipse,
-                        HTuples = new HTuple[] { row, column, phi, radius1, radius2 }
-                    };
+                    
 
 
                 }
@@ -153,14 +181,19 @@ namespace MachineVision.Shared.Controls
                     HOperatorSet.DrawRectangle1(hWindow, out HTuple r1, out HTuple c1, out HTuple r2, out HTuple c2);
                     HOperatorSet.GenRectangle1(out HObject rect, r1, c1, r2, c2);
 
-                    Application.Current.Dispatcher.Invoke(() => hWindow.DispObj(rect));
-
-                    drawObjectInfo = new DrawObjectInfo
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        Type = DrawObjectInfo.ShapeType.Rectangle,
-                        HObject = rect,
-                        HTuples = new[] { r1, c1, r2, c2 }
-                    };
+                        hWindow.DispObj(rect);
+                        this.DrawObjectInfo = new DrawObjectInfo
+                        {
+                            Type = DrawObjectInfo.ShapeType.Rectangle,
+                            HObject = rect,
+                            HTuples = new[] { r1, c1, r2, c2 }
+                        };
+                        DrawEvent.GetEvent<DrawObjectEvent>().Publish(this.DrawObjectInfo);
+                    });
+
+                    
                 }
                 catch (Exception ex)
                 {

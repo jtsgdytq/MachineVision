@@ -1,5 +1,5 @@
 ﻿using MachineVision.Core.TemplateMatch;
-using MachineVision.Core.TemplateMatch.TemplateModel;
+using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel;
 using MachineVision.Model;
 using MachineVision.Service;
 using MachineVision.View;
