@@ -30,7 +30,10 @@
                 <ColumnDefinition Width="0.3*" />
             </Grid.ColumnDefinitions>
 
-            <TabControl Grid.Column="1" Margin="6,5,6,0" Cursor="">
+            <TabControl
+                Grid.Column="1"
+                Margin="6,5,6,0"
+                Cursor="">
                 <!--<TabControl.Resources>
                 -->
                 <!--  重写 TabItem 样式，强制黑色字体  -->
@@ -74,7 +77,7 @@
                             <RowDefinition Height="0.9*" />
                             <RowDefinition Height="0.1*" />
                         </Grid.RowDefinitions>
-                        <ScrollViewer VerticalScrollBarVisibility="Hidden"  VerticalAlignment="Top" >
+                        <ScrollViewer VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden">
                             <StackPanel>
                                 <Expander Background="Transparent" Header="图像源">
                                     <Button Command="{Binding LoadImageCommand}" Content="加载图片" />
@@ -87,10 +90,10 @@
                                     <StackPanel>
                                         <TextBlock Text="图像金字塔：Numberlever" />
                                         <ComboBox
-                                                Padding="5"
-                                                SelectedIndex="0"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.CreateShape.NumLevels}">
+                                            Padding="5"
+                                            SelectedIndex="0"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding MatchService.CreateShape.NumLevels}">
                                             <ComboBoxItem Content="auto" />
                                             <ComboBoxItem Content="1" />
                                             <ComboBoxItem Content="2" />
@@ -104,15 +107,21 @@
                                             <ComboBoxItem Content="10" />
                                         </ComboBox>
                                         <TextBlock Text="起始角度：AngleStart" />
-                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MatchService.CreateShape.AngleStart}"  Padding="5"/>
+                                        <TextBox
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            Text="{Binding MatchService.CreateShape.AngleStart}" />
                                         <TextBlock Text="角度范围：AngleExtent" />
-                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding MatchService.CreateShape.AngleExtent}"  Padding="5"/>
+                                        <TextBox
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            Text="{Binding MatchService.CreateShape.AngleExtent}" />
                                         <TextBlock Text="角度步长：AngleStep" />
                                         <ComboBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.CreateShape.AngleStep}">
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding MatchService.CreateShape.AngleStep}">
                                             <ComboBoxItem>auto</ComboBoxItem>
                                             <ComboBoxItem>0.01</ComboBoxItem>
                                             <ComboBoxItem>0.03</ComboBoxItem>
@@ -122,10 +131,10 @@
                                         </ComboBox>
                                         <TextBlock Text="Optimization" />
                                         <ComboBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.CreateShape.Optimization}">
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding MatchService.CreateShape.Optimization}">
                                             <ComboBoxItem>auto</ComboBoxItem>
                                             <ComboBoxItem>none</ComboBoxItem>
                                             <ComboBoxItem>point_reduction_low</ComboBoxItem>
@@ -136,10 +145,10 @@
                                         </ComboBox>
                                         <TextBlock Text="Metric" />
                                         <ComboBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.CreateShape.Metric}">
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding MatchService.CreateShape.Metric}">
                                             <ComboBoxItem>use_polarity</ComboBoxItem>
                                             <ComboBoxItem>ignore_global_polarity</ComboBoxItem>
                                             <ComboBoxItem>ignore_local_polarity</ComboBoxItem>
@@ -147,10 +156,10 @@
                                         </ComboBox>
                                         <TextBlock Text="Contrast" />
                                         <ComboBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.CreateShape.Contrast}">
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding MatchService.CreateShape.Contrast}">
                                             <ComboBoxItem>auto</ComboBoxItem>
                                             <ComboBoxItem>auto_contrast</ComboBoxItem>
                                             <ComboBoxItem>auto_contrast_hyst</ComboBoxItem>
@@ -164,10 +173,10 @@
                                         </ComboBox>
                                         <TextBlock Text="MinContrast" />
                                         <ComboBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.CreateShape.MinContrast}">
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding MatchService.CreateShape.MinContrast}">
                                             <ComboBoxItem>auto</ComboBoxItem>
                                             <ComboBoxItem>1</ComboBoxItem>
                                             <ComboBoxItem>2</ComboBoxItem>
@@ -181,9 +190,9 @@
                                             <ComboBoxItem>40</ComboBoxItem>
                                         </ComboBox>
                                         <Button
-                                                Command="{Binding AddTemplateCommand}"
-                                                Content="添加模板"
-                                                Cursor="Hand" />
+                                            Command="{Binding AddTemplateCommand}"
+                                            Content="添加模板"
+                                            Cursor="Hand" />
                                     </StackPanel>
 
 
@@ -203,40 +212,40 @@
                                         <StackPanel>
                                             <TextBlock Text="AngleStart" />
                                             <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.FindShape.AngleStart}" />
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                Text="{Binding MatchService.FindShape.AngleStart}" />
                                             <TextBlock Text="AngleExtent" />
                                             <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.FindShape.AngleExtent}" />
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                Text="{Binding MatchService.FindShape.AngleExtent}" />
                                             <TextBlock Text="MinScore" />
                                             <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.FindShape.MinScore}" />
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                Text="{Binding MatchService.FindShape.MinScore}" />
                                             <TextBlock Text="NumMatches" />
                                             <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.FindShape.NumMatches}" />
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                Text="{Binding MatchService.FindShape.NumMatches}" />
                                             <TextBlock Text="MaxOverlap" />
                                             <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.FindShape.MaxOverlap}" />
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                Text="{Binding MatchService.FindShape.MaxOverlap}" />
                                             <TextBlock Text="SubPixel" />
                                             <ComboBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                            Text="{Binding MatchService.FindShape.SubPixel}">
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                Text="{Binding MatchService.FindShape.SubPixel}">
                                                 <ComboBoxItem>none</ComboBoxItem>
                                                 <ComboBoxItem>none</ComboBoxItem>
                                                 <ComboBoxItem>interpolation</ComboBoxItem>
@@ -252,10 +261,10 @@
                                             </ComboBox>
                                             <TextBlock Text="NumLevels" />
                                             <ComboBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                            Text="{Binding MatchService.FindShape.NumLevels}">
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                                Text="{Binding MatchService.FindShape.NumLevels}">
                                                 <ComboBoxItem>0</ComboBoxItem>
                                                 <ComboBoxItem>1</ComboBoxItem>
                                                 <ComboBoxItem>2</ComboBoxItem>
@@ -269,19 +278,23 @@
                                             </ComboBox>
                                             <TextBlock Text="Greediness" />
                                             <TextBox
-                                            Margin="0,5"
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.FindShape.Greediness}" />
+                                                Margin="0,5"
+                                                Padding="5"
+                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                Text="{Binding MatchService.FindShape.Greediness}" />
                                         </StackPanel>
                                     </Expander.Content>
                                 </Expander>
 
                             </StackPanel>
                         </ScrollViewer>
-                      
-                            <Button Command="{Binding RunCommand}" Content="运行"  Grid.Row="1" Margin="5,5"/>
-                       
+
+                        <Button
+                            Grid.Row="1"
+                            Margin="5,5"
+                            Command="{Binding RunCommand}"
+                            Content="运行" />
+
                     </Grid>
 
                 </TabItem>
@@ -313,10 +326,7 @@
                     <RowDefinition Height="0.3*" />
                 </Grid.RowDefinitions>
 
-                <controls:ImageEditView
-                    Grid.Row="0"
-                    DrawObjectInfo="{Binding DrawObjectInfo}"
-                    Image="{Binding Image}" />
+                <controls:ImageEditView Grid.Row="0" Image="{Binding Image}" />
                 <!--  结果显示  -->
 
                 <DataGrid

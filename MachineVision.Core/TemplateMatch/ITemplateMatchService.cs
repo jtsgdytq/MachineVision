@@ -9,7 +9,7 @@ namespace MachineVision.Core.TemplateMatch
 {
     public interface ITemplateMatchService
     {
-        Task CraeteTemplate(HObject Image,HObject hObject);
+        Task CraeteTemplate(HObject hObject);
 
         public void Run (HObject Image);
     }

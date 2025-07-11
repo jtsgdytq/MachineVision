@@ -19,12 +19,16 @@ namespace MachineVision.Shared.Controls
         {
             this.Loaded += (s, e) =>
             {
-                if (DrawEvent == null)
+                if (!System.ComponentModel.DesignerProperties.GetIsInDesignMode(this))
                 {
-                    DrawEvent = Prism.Ioc.ContainerLocator.Container.Resolve<IEventAggregator>();
+                    if (DrawEvent == null)
+                    {
+                        DrawEvent = Prism.Ioc.ContainerLocator.Container.Resolve<IEventAggregator>();
+                    }
                 }
             };
         }
+
 
         private HSmartWindowControlWPF hSmart;
         private HWindow hWindow;
@@ -40,7 +44,9 @@ namespace MachineVision.Shared.Controls
 
 
 
-
+        /// <summary>
+        /// 绘制图像区域
+        /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -380,8 +386,29 @@ namespace MachineVision.Shared.Controls
         }
 
 
+        public void DisposeResources()
+        {
+            try
+            {
+                // 释放图像资源
+                Image?.Dispose();
+
+                // 释放绘图对象
+                DrawObjectInfo?.HObject?.Dispose();
+
+                // 如果你还保存了其他 Halcon 对象，可以在此处一并释放
+
+                DrawObjectInfo = null;
+                hWindow?.ClearWindow();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("资源释放出错: " + ex.Message);
+            }
+        }
 
 
-        
+
+
     }
 }
