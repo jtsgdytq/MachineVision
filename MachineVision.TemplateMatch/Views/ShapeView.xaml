@@ -328,45 +328,51 @@
 
                 <controls:ImageEditView Grid.Row="0" Image="{Binding Image}" />
                 <!--  结果显示  -->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid
+                        AutoGenerateColumns="False"
+                        Background="Transparent"
+                        Foreground="Black">
+                        <DataGrid.Resources>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="DataGridColumnHeader">
+                                <Setter Property="Foreground" Value="Black" />
+                            </Style>
 
-                <DataGrid
-                    Grid.Row="1"
-                    AutoGenerateColumns="False"
-                    Background="Transparent"
-                    Foreground="Black">
-                    <DataGrid.Resources>
-                        <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="DataGridColumnHeader">
-                            <Setter Property="Foreground" Value="Black" />
-                        </Style>
+                            <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="DataGridCell">
+                                <Setter Property="Foreground" Value="Black" />
+                            </Style>
+                        </DataGrid.Resources>
 
-                        <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="DataGridCell">
-                            <Setter Property="Foreground" Value="Black" />
-                        </Style>
-                    </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding TemplateName}"
+                                Header="模板名称" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Score}"
+                                Header="匹配分数" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding PositionX}"
+                                Header="位置X" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding PositionY}"
+                                Header="位置Y" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Angle}"
+                                Header="角度" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock Grid.Row="1" Text="{Binding ResutInfo.Message}" />
+                </Grid>
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding TemplateName}"
-                            Header="模板名称" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding Score}"
-                            Header="匹配分数" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding PositionX}"
-                            Header="位置X" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding PositionY}"
-                            Header="位置Y" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding Angle}"
-                            Header="角度" />
-                    </DataGrid.Columns>
-                </DataGrid>
 
             </Grid>
         </Grid>

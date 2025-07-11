@@ -1,4 +1,5 @@
 ﻿using HalconDotNet;
+using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace MachineVision.Core.TemplateMatch
 {
     public interface ITemplateMatchService
     {
-        Task CraeteTemplate(HObject hObject);
+        Task CraeteTemplate(HObject image,HObject hObject);
 
-        public void Run (HObject Image);
+       public TemplateResult Run (HObject Image);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using HalconDotNet;
 using MachineVision.Core;
 using MachineVision.Core.TemplateMatch;
+using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information;
 using MachineVision.Shared.Controls;
 using MachineVision.Shared.EventAggregator;
 using Microsoft.Win32;
@@ -23,11 +24,14 @@ namespace MachineVision.TemplateMatch.ViewModels
             MatchService = ContainerLocator.Container.Resolve<ITemplateMatchService>(nameof(TemplateMatchType.ShapeMatch));
             LoadImageCommand = new DelegateCommand(LoadImage);
             AddTemplateCommand = new DelegateCommand(AddTemplate);
+            RunCommand = new DelegateCommand(Run);
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<DrawObjectEvent>().Subscribe(OnDrawObject);
+
+            
         }
 
-        
+       
 
         private void OnDrawObject(DrawObjectInfo info)
         {
@@ -70,8 +74,9 @@ namespace MachineVision.TemplateMatch.ViewModels
                 if (images != null && images.IsInitialized())
                 {
                     Image = images;
-                    // 可选：通知 ImageEditView 显示图像
-                    _eventAggregator.GetEvent<DrawObjectEvent>().Publish(null); // 强制刷新
+
+                    
+
                 }
                 else
                 {
@@ -87,10 +92,32 @@ namespace MachineVision.TemplateMatch.ViewModels
 
         private void AddTemplate()
         {
-             
-            MatchService.CraeteTemplate(DrawObjectInfo.HObject);
+            if(drawObjectInfo.HObject == null ||Image==null)
+            {
+                MessageBox.Show("请先绘制一个形状对象！");
+                return;
+            }
+            MatchService.CraeteTemplate(Image,DrawObjectInfo.HObject);
+            MessageBox.Show("模板创建成功！");
         }
 
+        public DelegateCommand RunCommand { get; set; }
+
+        private void Run()
+        {
+           var ResutInfo=  MatchService.Run(Image);
+        }
+
+
+        private TemplateResult resutInfo;
+
+        public TemplateResult ResutInfo
+        {
+            get { return resutInfo; }
+            set { resutInfo = value;
+                RaisePropertyChanged(nameof(ResutInfo));
+            }
+        }
 
 
 

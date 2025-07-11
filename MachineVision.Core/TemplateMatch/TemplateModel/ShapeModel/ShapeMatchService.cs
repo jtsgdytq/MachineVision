@@ -1,4 +1,5 @@
 ﻿using HalconDotNet;
+using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +11,129 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
 {
     public class ShapeMatchService : ITemplateMatchService
     {
-        HTuple modelID; // Change type from HObject to HTuple
+        HTuple modelID;
 
-        public Task CraeteTemplate(HObject hObject)
+        HObject templateimage;
+
+        HObject resultRegion;
+        HTuple row, column, angle, score;
+
+        public Task CraeteTemplate(HObject image, HObject hObject)
         {
             // 检查 hObject 是否为空或无效
             if (hObject == null || !hObject.IsInitialized())
                 throw new ArgumentException("模板对象未初始化或无效");
 
-            // 检查 hObject 是否有像素
-            HTuple width, height;
-            HOperatorSet.GetImageSize(hObject, out width, out height);
-            if (width.I == 0 || height.I == 0)
-                throw new ArgumentException("模板对象没有有效的像素数据");
+            HOperatorSet.ReduceDomain(image, hObject, out templateimage);
 
-            HOperatorSet.CreateShapeModel(hObject, "auto", (new HTuple(0)).TupleRad(), (new HTuple(90)).TupleRad(), "auto", "auto", "use_polarity", "auto", "auto", out modelID);
+            HOperatorSet.CreateShapeModel(templateimage, 
+                CreateShape.NumLevels,
+                CreateShape.AngleStart,
+                CreateShape.AngleExtent, 
+                createShape.AngleStart,
+                CreateShape.Optimization, 
+                CreateShape.Metric,
+                CreateShape.Contrast, 
+                CreateShape.MinContrast, 
+                out modelID);
+
+           
 
             return Task.CompletedTask;
         }
 
-        public void Run(HObject Image)
-        {
+        // MatchTemplateResult Run(HObject Image)
+        //{
+        //    if (modelID == null )
+        //        throw new InvalidOperationException("模型未创建或无效");
 
+        //    HOperatorSet.FindShapeModel(Image, 
+        //        modelID, FindShape.AngleStart,
+        //        FindShape.AngleExtent,
+        //        FindShape.MinScore,
+        //        FindShape.NumMatches,
+        //        FindShape.MaxOverlap,
+        //        FindShape.SubPixel,
+        //        FindShape.NumLevels,
+        //        FindShape.Greediness, 
+        //        out row, 
+        //        out column,
+        //        out angle, 
+        //        out score);
+
+
+
+        //    for(int i=0;i<=score.Length-1; i++)
+        //    {
+
+        //    }
+
+
+        //    return matchresult;
+
+
+        //}
+        public TemplateResult Run(HObject Image)
+        {
+            var result = new TemplateResult();
+
+            if (modelID == null)
+            {
+                result.IsSuccess = false;
+                result.Message = "模型未创建或无效";
+                return result;
+            }
+
+            try
+            {
+                HOperatorSet.FindShapeModel(
+                    Image,
+                    modelID,
+                    FindShape.AngleStart,
+                    FindShape.AngleExtent,
+                    FindShape.MinScore,
+                    FindShape.NumMatches,
+                    FindShape.MaxOverlap,
+                    FindShape.SubPixel,
+                    FindShape.NumLevels,
+                    FindShape.Greediness,
+                    out row,
+                    out column,
+                    out angle,
+                    out score
+                );
+
+                if (score.Length == 0)
+                {
+                    result.IsSuccess = false;
+                    result.Message = "未找到匹配结果";
+                    return result;
+                }
+
+                for (int i = 0; i < score.Length; i++)
+                {
+                    result.Results.Add(new MatchTemplateResult
+                    {
+                        Index = i,
+                        Row = row[i].D,
+                        Column = column[i].D,
+                        Angle = angle[i].D,
+                        Score = score[i].D
+                    });
+                }
+
+                result.IsSuccess = true;
+                result.Message = $"匹配成功，共找到 {score.Length} 个结果";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Message = $"匹配过程中发生错误: {ex.Message}";
+                return result;
+            }
         }
+
 
         public ShapeMatchService()
         {
