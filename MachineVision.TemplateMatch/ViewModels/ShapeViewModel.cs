@@ -7,6 +7,7 @@ using MachineVision.Shared.EventAggregator;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ using System.Windows;
 
 namespace MachineVision.TemplateMatch.ViewModels
 {
-    public class ShapeViewModel:NavigationViewModel
+    public class ShapeViewModel : NavigationViewModel
     {
         public ITemplateMatchService MatchService { get; }
 
@@ -25,17 +26,23 @@ namespace MachineVision.TemplateMatch.ViewModels
             LoadImageCommand = new DelegateCommand(LoadImage);
             AddTemplateCommand = new DelegateCommand(AddTemplate);
             RunCommand = new DelegateCommand(Run);
+            ClearCommand = new DelegateCommand(() =>
+            {
+                MatchService.clearTemplate();
+                ResultInfo = null;
+                DrawObjectInfo = null;
+            });
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<DrawObjectEvent>().Subscribe(OnDrawObject);
 
-            
+
         }
 
-       
+
 
         private void OnDrawObject(DrawObjectInfo info)
         {
-             DrawObjectInfo = info as DrawObjectInfo;
+            DrawObjectInfo = info as DrawObjectInfo;
         }
 
         private HObject image;
@@ -43,7 +50,9 @@ namespace MachineVision.TemplateMatch.ViewModels
         public HObject Image
         {
             get { return image; }
-            set { image = value; 
+            set
+            {
+                image = value;
                 RaisePropertyChanged(nameof(Image));
             }
         }
@@ -75,7 +84,7 @@ namespace MachineVision.TemplateMatch.ViewModels
                 {
                     Image = images;
 
-                    
+
 
                 }
                 else
@@ -92,12 +101,12 @@ namespace MachineVision.TemplateMatch.ViewModels
 
         private void AddTemplate()
         {
-            if(drawObjectInfo.HObject == null ||Image==null)
+            if (drawObjectInfo.HObject == null || Image == null)
             {
                 MessageBox.Show("请先绘制一个形状对象！");
                 return;
             }
-            MatchService.CraeteTemplate(Image,DrawObjectInfo.HObject);
+            MatchService.CraeteTemplate(Image, DrawObjectInfo.HObject);
             MessageBox.Show("模板创建成功！");
         }
 
@@ -105,21 +114,34 @@ namespace MachineVision.TemplateMatch.ViewModels
 
         private void Run()
         {
-           var ResutInfo=  MatchService.Run(Image);
+            ResultInfo = MatchService.Run(Image);
         }
 
 
-        private TemplateResult resutInfo;
+        private TemplateResult resultInfo;
 
-        public TemplateResult ResutInfo
+        public TemplateResult ResultInfo
         {
-            get { return resutInfo; }
-            set { resutInfo = value;
-                RaisePropertyChanged(nameof(ResutInfo));
+            get { return resultInfo; }
+            set
+            {
+                resultInfo = value;
+                RaisePropertyChanged(nameof(ResultInfo));
             }
         }
 
 
+        public DelegateCommand ClearCommand { get; set; }
 
+
+
+
+
+
+
+
+
+        //public ObservableCollection<TemplateResult> ResultInfo { get; set; }
     }
+       
 }

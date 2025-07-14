@@ -13,5 +13,8 @@ namespace MachineVision.Core.TemplateMatch
         Task CraeteTemplate(HObject image,HObject hObject);
 
        public TemplateResult Run (HObject Image);
+
+        public void clearTemplate();
+
     }
 }

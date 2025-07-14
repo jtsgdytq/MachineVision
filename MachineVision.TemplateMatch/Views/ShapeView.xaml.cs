@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HalconDotNet;
+using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel;
+using MachineVision.TemplateMatch.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +26,26 @@ namespace MachineVision.TemplateMatch.Views
         public ShapeView()
         {
             InitializeComponent();
+            this.Loaded += ShapeView_Loaded;
+
+        }
+
+
+        private void ShapeView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // 订阅事件（这里确保 MyImageEditView 已初始化）
+            MyImageEditView.HalconWindowReady += OnHalconWindowReady;
+        }
+
+        private void OnHalconWindowReady(HWindow hWindow)
+        {
+            if (this.DataContext is ShapeViewModel vm &&
+                vm.MatchService is ShapeMatchService service)
+            {
+                service.HWindow = hWindow;
+               
+            }
         }
     }
 }
+

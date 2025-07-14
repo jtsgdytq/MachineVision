@@ -289,11 +289,23 @@
                             </StackPanel>
                         </ScrollViewer>
 
-                        <Button
+                        <UniformGrid
                             Grid.Row="1"
-                            Margin="5,5"
-                            Command="{Binding RunCommand}"
-                            Content="运行" />
+                            Margin="0,0,0,5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Columns="2">
+                            <Button
+                                Margin="0,0,5,0"
+                                Command="{Binding RunCommand}"
+                                Content="开始"
+                                Cursor="Hand" />
+                            <Button
+                                Command="{Binding ClearCommand}"
+                                Content="清除"
+                                Cursor="Hand" />
+                        </UniformGrid>
+
 
                     </Grid>
 
@@ -302,7 +314,7 @@
                     <StackPanel Margin="10">
                         <DockPanel LastChildFill="False">
                             <TextBlock FontSize="14" Text="显示文本" />
-                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding MatchService.Setting.IsShowDisplayText}" />
+                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding MatchService.Setting.IsShowText}" />
                         </DockPanel>
 
                         <DockPanel Margin="0,15" LastChildFill="False">
@@ -312,7 +324,7 @@
 
                         <DockPanel LastChildFill="False">
                             <TextBlock FontSize="14" Text="显示检测范围" />
-                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding MatchService.Setting.IsShowMatchRange}" />
+                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding MatchService.Setting.IsDdetectionRange}" />
                         </DockPanel>
                     </StackPanel>
 
@@ -326,7 +338,10 @@
                     <RowDefinition Height="0.3*" />
                 </Grid.RowDefinitions>
 
-                <controls:ImageEditView Grid.Row="0" Image="{Binding Image}" />
+                <controls:ImageEditView
+                    x:Name="MyImageEditView"
+                    Grid.Row="0"
+                    Image="{Binding Image}" />
                 <!--  结果显示  -->
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
@@ -336,7 +351,8 @@
                     <DataGrid
                         AutoGenerateColumns="False"
                         Background="Transparent"
-                        Foreground="Black">
+                        Foreground="Black"
+                        ItemsSource="{Binding ResultInfo.Results}">
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="DataGridColumnHeader">
                                 <Setter Property="Foreground" Value="Black" />
@@ -350,7 +366,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="*"
-                                Binding="{Binding TemplateName}"
+                                Binding="{Binding Index}"
                                 Header="模板名称" />
                             <DataGridTextColumn
                                 Width="*"
@@ -358,11 +374,11 @@
                                 Header="匹配分数" />
                             <DataGridTextColumn
                                 Width="*"
-                                Binding="{Binding PositionX}"
+                                Binding="{Binding Row}"
                                 Header="位置X" />
                             <DataGridTextColumn
                                 Width="*"
-                                Binding="{Binding PositionY}"
+                                Binding="{Binding Column}"
                                 Header="位置Y" />
                             <DataGridTextColumn
                                 Width="*"
@@ -370,7 +386,7 @@
                                 Header="角度" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock Grid.Row="1" Text="{Binding ResutInfo.Message}" />
+                    <TextBlock Grid.Row="1" Text="{Binding ResultInfo.Message}" />
                 </Grid>
 
 

@@ -38,6 +38,8 @@ namespace MachineVision.Shared.Controls
         private HObject circle;
         private HObject ellipse;
 
+        // 放在类中合适的位置（比如靠近属性区域）
+        public HWindow HalconWindow => hWindow;
 
 
         public DrawObjectInfo DrawObjectInfo
@@ -218,12 +220,14 @@ namespace MachineVision.Shared.Controls
 
 
 
-        
+        public event Action<HWindow> HalconWindowReady;
 
         private void HSmart_Loaded(object sender, RoutedEventArgs e)
         {
             hWindow = this.hSmart.HalconWindow;
-            
+
+            HalconWindowReady?.Invoke(hWindow);
+
         }
         public HObject Image
         {

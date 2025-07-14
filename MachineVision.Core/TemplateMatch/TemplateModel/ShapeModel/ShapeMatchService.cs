@@ -6,17 +6,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
+using static MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information.TemplateResult;
 
 namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
 {
-    public class ShapeMatchService : ITemplateMatchService
+    public class ShapeMatchService :BindableBase ,ITemplateMatchService
     {
-        HTuple modelID;
+        HTuple ModelID;
 
         HObject templateimage;
 
         HObject resultRegion;
         HTuple row, column, angle, score;
+        TemplateResult result = new TemplateResult();
+
+        
+
 
         public Task CraeteTemplate(HObject image, HObject hObject)
         {
@@ -35,49 +40,26 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
                 CreateShape.Metric,
                 CreateShape.Contrast, 
                 CreateShape.MinContrast, 
-                out modelID);
+                out ModelID);
 
            
 
             return Task.CompletedTask;
         }
 
-        // MatchTemplateResult Run(HObject Image)
-        //{
-        //    if (modelID == null )
-        //        throw new InvalidOperationException("模型未创建或无效");
-
-        //    HOperatorSet.FindShapeModel(Image, 
-        //        modelID, FindShape.AngleStart,
-        //        FindShape.AngleExtent,
-        //        FindShape.MinScore,
-        //        FindShape.NumMatches,
-        //        FindShape.MaxOverlap,
-        //        FindShape.SubPixel,
-        //        FindShape.NumLevels,
-        //        FindShape.Greediness, 
-        //        out row, 
-        //        out column,
-        //        out angle, 
-        //        out score);
-
-
-
-        //    for(int i=0;i<=score.Length-1; i++)
-        //    {
-
-        //    }
-
-
-        //    return matchresult;
-
-
-        //}
+        
         public TemplateResult Run(HObject Image)
         {
-            var result = new TemplateResult();
 
-            if (modelID == null)
+            if (HWindow == null)
+            {
+                result.IsSuccess = false;
+                result.Message = "显示窗口未设置或未打开。";
+                return result;
+            }
+
+
+            if (ModelID == null)
             {
                 result.IsSuccess = false;
                 result.Message = "模型未创建或无效";
@@ -88,7 +70,7 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
             {
                 HOperatorSet.FindShapeModel(
                     Image,
-                    modelID,
+                    ModelID,
                     FindShape.AngleStart,
                     FindShape.AngleExtent,
                     FindShape.MinScore,
@@ -101,7 +83,9 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
                     out column,
                     out angle,
                     out score
+                 
                 );
+                
 
                 if (score.Length == 0)
                 {
@@ -110,17 +94,54 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
                     return result;
                 }
 
+
+                HOperatorSet.GetShapeModelContours(out resultRegion, ModelID, 1);
+
+               
+
                 for (int i = 0; i < score.Length; i++)
                 {
+
+                    HOperatorSet.VectorAngleToRigid(0, 0, 0,
+                           row[i], column[i], angle[i], out HTuple homMat2D);
+
+                    HOperatorSet.AffineTransContourXld(resultRegion, out HObject transRegion, homMat2D);
                     result.Results.Add(new MatchTemplateResult
                     {
                         Index = i,
                         Row = row[i].D,
                         Column = column[i].D,
                         Angle = angle[i].D,
-                        Score = score[i].D
+                        Score = score[i].D,
+                        Contours= transRegion
+
                     });
+
+                   
+
+                    if (result.Results!= null )
+                    {
+                        foreach (var item in result.Results)
+                        {
+                            if (Setting.IsShowCenter)
+                                HOperatorSet.DispCross(HWindow,item.Row, item.Column,30,item.Angle);
+                            if( Setting.IsShowText)
+                                HOperatorSet.DispText(HWindow, $"Score: {item.Score:F2}", "window", item.Row, item.Column, "black", "box", "true");
+                            if (Setting.IsDdetectionRange)
+                                HOperatorSet.DispObj(item.Contours, HWindow);
+
+                        }
+
+                       
+                    }
+                   
+
                 }
+
+
+
+
+
 
                 result.IsSuccess = true;
                 result.Message = $"匹配成功，共找到 {score.Length} 个结果";
@@ -134,11 +155,54 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
             }
         }
 
+        public void clearTemplate()
+        {
+            hWindow?.ClearWindow();
+            if (ModelID != null)
+            {
+                HOperatorSet.ClearShapeModel(ModelID);
+                ModelID = null;
+            }
 
+            if (templateimage != null)
+            {
+                templateimage.Dispose();
+                templateimage = null;
+            }
+            if (resultRegion != null)
+            {
+                resultRegion.Dispose();
+                resultRegion = null;
+            }
+            result.Results.Clear();
+            result.IsSuccess = false;
+            result.Message = string.Empty;
+            row = null;
+            column = null;
+            angle = null;
+            score = null;
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        #region 参数属性
         public ShapeMatchService()
         {
             CreateShape = new CreateShapeTemplateParam();
             FindShape = new FindShapeTemplateParam();
+            Setting = new ShapematchSetting();
+            HWindow = new HWindow();
         }
 
 
@@ -157,8 +221,34 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
             get { return findShape; }
             set { findShape = value; }
 
-
-
         }
+
+
+        private ShapematchSetting setting;
+
+        public ShapematchSetting Setting  
+        {
+            get { return setting; }
+            set { setting = value;  
+                RaisePropertyChanged(nameof(Setting));
+            }
+        }
+
+        private HWindow hWindow;
+
+        public HWindow HWindow
+        {
+            get { return hWindow; }
+            set { hWindow = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+
+
+        #endregion
+
+
     }
 }

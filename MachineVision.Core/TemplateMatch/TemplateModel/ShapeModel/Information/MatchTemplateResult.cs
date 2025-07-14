@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HalconDotNet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,7 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information
         public double Column { get; set; }
         public double Angle { get; set; }
         public double Score { get; set; }
+
+        public HObject Contours { get; set; }
     }
 }
