@@ -1,4 +1,5 @@
 ﻿using MachineVision.Core.TemplateMatch;
+using MachineVision.Core.TemplateMatch.TemplateModel.NccModel;
 using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel;
 using MachineVision.Model;
 using MachineVision.Service;
@@ -53,6 +54,8 @@ namespace MachineVision
 
             //注册模板匹配服务
             services.Register<ITemplateMatchService,ShapeMatchService>(nameof(TemplateMatchType.ShapeMatch));
+
+            services.Register<ITemplateMatchService, NccMatchService>(nameof(TemplateMatchType.NccMatch));
 
         }
 

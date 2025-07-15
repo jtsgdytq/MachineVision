@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information
+namespace MachineVision.Core.TemplateMatch.Share
 {
     public class MatchTemplateResult
     {

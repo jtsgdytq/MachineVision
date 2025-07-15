@@ -1,9 +1,10 @@
 ﻿using HalconDotNet;
 using MachineVision.Core;
 using MachineVision.Core.TemplateMatch;
-using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information;
+using MachineVision.Core.TemplateMatch.Share;
 using MachineVision.Shared.Controls;
 using MachineVision.Shared.EventAggregator;
+using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,13 @@ namespace MachineVision.TemplateMatch.ViewModels
         public ITemplateMatchService MatchService { get; }
 
         private readonly IEventAggregator _eventAggregator;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="eventAggregator"></param>
+        /// 通过事件聚合器获取绘制对象的信息
+        /// 此处为订阅事件
         public ShapeViewModel(IEventAggregator eventAggregator)
         {
             MatchService = ContainerLocator.Container.Resolve<ITemplateMatchService>(nameof(TemplateMatchType.ShapeMatch));
@@ -31,7 +39,12 @@ namespace MachineVision.TemplateMatch.ViewModels
                 MatchService.clearTemplate();
                 ResultInfo = null;
                 DrawObjectInfo = null;
-            });
+                Image = null;
+              
+            })
+            {
+
+            };
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<DrawObjectEvent>().Subscribe(OnDrawObject);
 
@@ -84,8 +97,6 @@ namespace MachineVision.TemplateMatch.ViewModels
                 {
                     Image = images;
 
-
-
                 }
                 else
                 {
@@ -103,7 +114,7 @@ namespace MachineVision.TemplateMatch.ViewModels
         {
             if (drawObjectInfo.HObject == null || Image == null)
             {
-                MessageBox.Show("请先绘制一个形状对象！");
+                MessageBox.Show("请加载图像！");
                 return;
             }
             MatchService.CraeteTemplate(Image, DrawObjectInfo.HObject);
@@ -134,14 +145,6 @@ namespace MachineVision.TemplateMatch.ViewModels
         public DelegateCommand ClearCommand { get; set; }
 
 
-
-
-
-
-
-
-
-        //public ObservableCollection<TemplateResult> ResultInfo { get; set; }
     }
        
 }

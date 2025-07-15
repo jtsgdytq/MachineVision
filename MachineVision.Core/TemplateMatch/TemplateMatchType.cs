@@ -9,5 +9,6 @@ namespace MachineVision.Core.TemplateMatch
     public enum TemplateMatchType
     {
         ShapeMatch,
+        NccMatch,
     }
 }

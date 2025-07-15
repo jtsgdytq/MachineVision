@@ -1,4 +1,5 @@
 ﻿using HalconDotNet;
+using MachineVision.Core.TemplateMatch.Share;
 using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
-using static MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information.TemplateResult;
+using static MachineVision.Core.TemplateMatch.Share.TemplateResult;
 
 namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
 {
@@ -20,8 +21,14 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
         HTuple row, column, angle, score;
         TemplateResult result = new TemplateResult();
 
-        
 
+        /// <summary>
+        /// 创建模板
+        /// </summary>
+        /// <param name="image" 原始图像></param>
+        /// <param name="hObject" 绘制的模板区域></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
 
         public Task CraeteTemplate(HObject image, HObject hObject)
         {
@@ -47,7 +54,11 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
             return Task.CompletedTask;
         }
 
-        
+        /// <summary>
+        /// 匹配模板
+        /// </summary>
+        /// <param name="Image"></param>
+        /// <returns></returns>
         public TemplateResult Run(HObject Image)
         {
 
@@ -117,8 +128,8 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
 
                     });
 
-                   
 
+                    // 在窗口中显示匹配结果
                     if (result.Results!= null )
                     {
                         foreach (var item in result.Results)
@@ -154,7 +165,9 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
                 return result;
             }
         }
-
+        /// <summary>
+        /// 清除模板和结果
+        /// </summary>
         public void clearTemplate()
         {
             hWindow?.ClearWindow();
@@ -201,7 +214,7 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
         {
             CreateShape = new CreateShapeTemplateParam();
             FindShape = new FindShapeTemplateParam();
-            Setting = new ShapematchSetting();
+            Setting = new MatchSetting();
             HWindow = new HWindow();
         }
 
@@ -224,16 +237,18 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
         }
 
 
-        private ShapematchSetting setting;
+        private MatchSetting setting;
 
-        public ShapematchSetting Setting  
+        public MatchSetting Setting  
         {
             get { return setting; }
             set { setting = value;  
                 RaisePropertyChanged(nameof(Setting));
             }
         }
-
+        /// <summary>
+        /// 窗口句柄用于显示匹配结果，通过ImageEditView的委托传递给shapeview.xmal.cs,初始化得到
+        /// </summary>
         private HWindow hWindow;
 
         public HWindow HWindow

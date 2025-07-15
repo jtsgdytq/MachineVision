@@ -1,5 +1,5 @@
 ﻿using HalconDotNet;
-using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information;
+using MachineVision.Core.TemplateMatch.Share;
 using System;
 using System.Collections.Generic;
 using System.Linq;

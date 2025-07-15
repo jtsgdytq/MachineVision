@@ -36,7 +36,7 @@ namespace MachineVision.Service
                 new NavigationItems("", "TemplateMatch", "模板匹配", "", new ObservableCollection<NavigationItems>()
                  {
                     new NavigationItems("ShapeOutline", "ShapeMatch", "形状匹配", "ShapeView"),
-                    new NavigationItems("Cloud", "NccMatch", "相似性匹配", "NccView"),
+                    new NavigationItems("Cloud", "NccMatch", "灰度匹配", "NccView"),
                     new NavigationItems("ShapeOvalPlus", "DeformationMatch", "形变匹配", "LocalDeformableView"),
                  }),
                     new NavigationItems("", "Measure", "比较测量", "", new ObservableCollection<NavigationItems>()

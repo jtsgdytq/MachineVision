@@ -14,7 +14,9 @@ namespace MachineVision.Shared.Controls
     {
 
         private IEventAggregator DrawEvent;
-
+        /// <summary>
+        /// 发布事件，用于通知其他组件绘制对象的信息
+        /// </summary>
         public ImageEditView()
         {
             this.Loaded += (s, e) =>
@@ -221,12 +223,16 @@ namespace MachineVision.Shared.Controls
 
 
         public event Action<HWindow> HalconWindowReady;
-
+        /// <summary>
+        /// 初始化 Halcon 窗口的句柄，将句柄传递给外部使用
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HSmart_Loaded(object sender, RoutedEventArgs e)
         {
             hWindow = this.hSmart.HalconWindow;
 
-            HalconWindowReady?.Invoke(hWindow);
+            HalconWindowReady?.Invoke(hWindow);// 触发事件，通知外部 Halcon 窗口已准备好，并传递句柄
 
         }
         public HObject Image

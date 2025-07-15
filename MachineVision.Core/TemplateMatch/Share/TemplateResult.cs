@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information
+namespace MachineVision.Core.TemplateMatch.Share
 {
     public class TemplateResult:BindableBase
     {
@@ -25,10 +25,10 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel.Information
         public ObservableCollection<MatchTemplateResult> Results { get; set; }
 
 
-        public class ShapematchSetting : BindableBase
+        public class MatchSetting : BindableBase
         {
 
-            public ShapematchSetting()
+            public MatchSetting()
             {
                 IsShowCenter = true;
                 IsShowText = true;
