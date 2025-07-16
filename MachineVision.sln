@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineVision.TemplateMatch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineVision.Core", "MachineVision.Core\MachineVision.Core.csproj", "{50E20F10-B39D-4A5E-932B-D86819AC7716}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MachineVision.Ocr", "MachineVision.Ocr\MachineVision.Ocr.csproj", "{FCACC87C-6D02-460F-BE2E-1CB81E408EC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{50E20F10-B39D-4A5E-932B-D86819AC7716}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50E20F10-B39D-4A5E-932B-D86819AC7716}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50E20F10-B39D-4A5E-932B-D86819AC7716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCACC87C-6D02-460F-BE2E-1CB81E408EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCACC87C-6D02-460F-BE2E-1CB81E408EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCACC87C-6D02-460F-BE2E-1CB81E408EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCACC87C-6D02-460F-BE2E-1CB81E408EC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

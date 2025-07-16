@@ -60,7 +60,7 @@ namespace MachineVision.ViewModel
                 IsOpenDialog = false;
             }
             //导航到对应的视图
-            regionManager.RequestNavigate("MainViewRegion", navigationItems.PageName);
+            //regionManager.RequestNavigate("MainViewRegion", navigationItems.PageName);
 
         }
 

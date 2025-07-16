@@ -253,10 +253,10 @@
                             <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding MatchService.Setting.IsShowCenter}" />
                         </DockPanel>
 
-                        <DockPanel LastChildFill="False">
+                        <!--<DockPanel LastChildFill="False">
                             <TextBlock FontSize="14" Text="显示检测范围" />
                             <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding MatchService.Setting.IsDdetectionRange}" />
-                        </DockPanel>
+                        </DockPanel>-->
                     </StackPanel>
 
 

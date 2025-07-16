@@ -1,4 +1,6 @@
-﻿using MachineVision.Core.TemplateMatch;
+﻿using HalconDotNet;
+using MachineVision.Core.Ocr;
+using MachineVision.Core.TemplateMatch;
 using MachineVision.Core.TemplateMatch.TemplateModel.NccModel;
 using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel;
 using MachineVision.Model;
@@ -57,12 +59,19 @@ namespace MachineVision
 
             services.Register<ITemplateMatchService, NccMatchService>(nameof(TemplateMatchType.NccMatch));
 
+
+            services.Register<BarCodeService>();
+            services.Register<QrCodeService>();
+
         }
 
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<TemplateMatch.TemplateMatchModel>();
+            moduleCatalog.AddModule<Ocr.OcrMatchModel>();
+
+
             base.ConfigureModuleCatalog(moduleCatalog);
 
 
