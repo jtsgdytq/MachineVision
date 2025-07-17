@@ -1,4 +1,5 @@
-﻿using MachineVision.TemplateMatch.ViewModels;
+﻿
+using MachineVision.TemplateMatch.ViewModels;
 using MachineVision.TemplateMatch.Views;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace MachineVision.TemplateMatch
            service.RegisterForNavigation<DrawShapeView, DrawShapeViewModel>();
             service.RegisterForNavigation<ShapeView, ShapeViewModel>();
             service.RegisterForNavigation<NccView, NccViewModel>();
+         
         }
     }
 }

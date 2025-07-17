@@ -19,6 +19,13 @@ namespace MachineVision.Ocr.ViewModel
             this.qrCodeService = qrCodeService;
 
             RunCommand = new DelegateCommand(Run);
+            ClearCommand = new DelegateCommand(() =>
+            {
+                Image = null;
+                Result = string.Empty;
+
+                this.qrCodeService.Dispose();
+            });
         }
 
         private readonly QrCodeService qrCodeService;
@@ -87,6 +94,9 @@ namespace MachineVision.Ocr.ViewModel
                 MessageBox.Show($"条形码识别失败：{ex.Message}");
             }
         }
+
+        public DelegateCommand ClearCommand { get; set; } 
+
 
     }
 }

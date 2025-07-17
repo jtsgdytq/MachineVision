@@ -55,6 +55,26 @@ namespace MachineVision.Shared.Controls
 
 
 
+
+
+
+        public HWindow HalconWin
+        {
+            get { return (HWindow)GetValue(HalconWinProperty); }
+            set { SetValue(HalconWinProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for HalconWin.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HalconWinProperty =
+            DependencyProperty.Register("HalconWin", typeof(HWindow), typeof(ImageEditView), new PropertyMetadata(null));
+
+
+
+
+
+
+
+
         /// <summary>
         /// 绘制图像区域
         /// </summary>
@@ -231,6 +251,7 @@ namespace MachineVision.Shared.Controls
         private void HSmart_Loaded(object sender, RoutedEventArgs e)
         {
             hWindow = this.hSmart.HalconWindow;
+            HalconWin = hWindow; // 设置依赖属性的值
 
             HalconWindowReady?.Invoke(hWindow);// 触发事件，通知外部 Halcon 窗口已准备好，并传递句柄
 

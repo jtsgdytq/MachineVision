@@ -5,6 +5,7 @@ using MachineVision.Core.TemplateMatch.TemplateModel.NccModel;
 using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel;
 using MachineVision.Model;
 using MachineVision.Service;
+using MachineVision.TemplateMatch.Service;
 using MachineVision.View;
 using MachineVision.ViewModel;
 using System.Configuration;
@@ -62,6 +63,7 @@ namespace MachineVision
 
             services.Register<BarCodeService>();
             services.Register<QrCodeService>();
+            services.Register<Mertology_Circle>();
 
         }
 
@@ -70,6 +72,8 @@ namespace MachineVision
         {
             moduleCatalog.AddModule<TemplateMatch.TemplateMatchModel>();
             moduleCatalog.AddModule<Ocr.OcrMatchModel>();
+            moduleCatalog.AddModule<Measure.MeasureModel>();
+
 
 
             base.ConfigureModuleCatalog(moduleCatalog);

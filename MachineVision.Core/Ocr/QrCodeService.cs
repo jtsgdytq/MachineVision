@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace MachineVision.Core.Ocr
 {
@@ -11,15 +12,17 @@ namespace MachineVision.Core.Ocr
     {
         public QrCodeService()
         {
-            HOperatorSet.CreateBarCodeModel(new HTuple(), new HTuple(), out hv_BarCodeHandle);
+            HOperatorSet.CreateDataCode2dModel("QR Code", new HTuple(), new HTuple(), out hv_DataCodeHandle);
         }
 
 
-        HObject ho_SymbolRegions = null;
+        HObject ho_Image, ho_SymbolXLDs = null;
 
+        // Local control variables 
 
-        HTuple hv_BarCodeHandle = new HTuple();
-        HTuple  hv_DecodedDataStrings = new HTuple();
+       
+        HTuple hv_DataCodeHandle = new HTuple();
+        HTuple hv_ResultHandles = new HTuple(), hv_DecodedDataStrings = new HTuple();
 
 
 
@@ -31,8 +34,8 @@ namespace MachineVision.Core.Ocr
                 HOperatorSet.Rgb1ToGray(image, out HObject grayImage);
 
                 // 查找二维码
-                HOperatorSet.FindBarCode(grayImage, out ho_SymbolRegions, hv_BarCodeHandle,
-                    "auto", out hv_DecodedDataStrings);
+                HOperatorSet.FindDataCode2d(grayImage, out ho_SymbolXLDs, hv_DataCodeHandle,
+            new HTuple(), new HTuple(), out hv_ResultHandles, out hv_DecodedDataStrings);
 
                 if (hv_DecodedDataStrings.Length > 0)
                 {
@@ -56,5 +59,21 @@ namespace MachineVision.Core.Ocr
         }
 
 
+        public void Dispose()
+        {
+            if (ho_Image != null && ho_Image.IsInitialized())
+            {
+                ho_Image.Dispose();
+            }
+            if (ho_SymbolXLDs != null && ho_SymbolXLDs.IsInitialized())
+            {
+                ho_SymbolXLDs.Dispose();
+            }
+            if (hv_DataCodeHandle != null && hv_DataCodeHandle.Length > 0)
+            {
+                HOperatorSet.ClearDataCode2dModel(hv_DataCodeHandle);
+            }
+           
+        }
     }
 }
