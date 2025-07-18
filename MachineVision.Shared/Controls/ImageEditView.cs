@@ -64,7 +64,7 @@ namespace MachineVision.Shared.Controls
             set { SetValue(HalconWinProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for HalconWin.  This enables animation, styling, binding, etc...
+       
         public static readonly DependencyProperty HalconWinProperty =
             DependencyProperty.Register("HalconWin", typeof(HWindow), typeof(ImageEditView), new PropertyMetadata(null));
 
@@ -153,6 +153,7 @@ namespace MachineVision.Shared.Controls
                             HTuples = new HTuple[] { row, column, radius }
                         };
                         DrawEvent.GetEvent<DrawObjectEvent>().Publish(this.DrawObjectInfo);
+
                     });
 
                 }

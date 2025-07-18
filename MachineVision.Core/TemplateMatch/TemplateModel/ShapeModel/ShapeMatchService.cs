@@ -200,15 +200,6 @@ namespace MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel
 
 
 
-
-
-
-
-
-
-
-
-
         #region 参数属性
         public ShapeMatchService()
         {

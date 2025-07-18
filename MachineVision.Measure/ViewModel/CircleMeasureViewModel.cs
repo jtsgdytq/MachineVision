@@ -1,5 +1,6 @@
 ﻿using HalconDotNet;
 using MachineVision.Core;
+using MachineVision.Measure.Service;
 using MachineVision.Shared.Controls;
 using MachineVision.Shared.EventAggregator;
 using MachineVision.TemplateMatch.Result;
@@ -10,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace MachineVision.Measure.ViewModel
@@ -18,17 +21,39 @@ namespace MachineVision.Measure.ViewModel
     {
         private readonly IEventAggregator _eventAggregator;
        private readonly Mertology_Circle _mertology_Circle;
+        public Mechology_Circle_Param Param { get; }
 
-        public CircleMeasureViewModel(IEventAggregator eventAggregator,Mertology_Circle mertology_Circle)
+      
+
+        public CircleMeasureViewModel(IEventAggregator eventAggregator,Mertology_Circle mertology_Circle,Mechology_Circle_Param param)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<DrawObjectEvent>().Subscribe(OnDrawObject);
             LoadImageCommand = new DelegateCommand(LoadImage);
             RunCommand = new DelegateCommand(run);
             _mertology_Circle = mertology_Circle;
-           
+            Param = param;
+            ClearCommand = new DelegateCommand(() => 
+            {
+                _mertology_Circle.clear();
+                DrawObjectInfo = null;
+                result = null;
+                Image = null;
+                HOperatorSet.ClearWindow(halconWindow);
 
+            });
+
+            ShowText = true;
+            ShowContour = true;
+
+
+            
+            
         }
+
+       
+
+
 
         DrawObjectInfo DrawObjectInfo;
 
@@ -55,7 +80,7 @@ namespace MachineVision.Measure.ViewModel
                 return halconWindow; }
 
             set { halconWindow = value;
-                Console.WriteLine("ViewModel 接收到 HWindow：" + (value != null));
+              
                 RaisePropertyChanged(); }
         }
 
@@ -65,12 +90,19 @@ namespace MachineVision.Measure.ViewModel
 
         private void run()
         {
-            result= _mertology_Circle.Run_Metrology_Circle(Image,DrawObjectInfo);
-            if(result != null)
+            if (Image != null || DrawObjectInfo != null)
             {
-                HOperatorSet.DispObj(result.contuns, HalconWindow);
+
+                result = _mertology_Circle.Run_Metrology_Circle(Image, DrawObjectInfo);
+
+                show(result, Image);
             }
-          
+
+            else
+            {
+                MessageBox.Show("请加载图像或绘制区域");
+                return;
+            }
         }
 
         
@@ -94,6 +126,41 @@ namespace MachineVision.Measure.ViewModel
                 throw new Exception("无法加载图像");
             }
         }
+
+        private void show( MeasureCircleResult result,HObject image)
+        {
+            if (result != null)
+            {
+                HOperatorSet.DispImage(image, HalconWindow);
+                HOperatorSet.SetColor(halconWindow, "red");
+               
+                HOperatorSet.DispObj(result.Contour, HalconWindow);
+                HOperatorSet.SetColor(halconWindow, "green");
+                if (ShowContour = true)
+                    HOperatorSet.DispObj(result.Contours, HalconWindow);
+                if(ShowText=true)
+                     halconWindow.WriteString(result.message);
+            }
+        }
+
+        public DelegateCommand ClearCommand {  get; set; }
+
+        private bool showText;
+
+        public bool ShowText
+        {
+            get { return showText; }
+            set { showText = value; RaisePropertyChanged(); }
+        }
+
+        private bool showContour;
+
+        public bool ShowContour
+        {
+            get { return showContour; }
+            set { showContour = value;RaisePropertyChanged(); }
+        }
+
 
 
     }

@@ -1,4 +1,5 @@
 ﻿using HalconDotNet;
+using MachineVision.Measure.Service;
 using MachineVision.Shared.Controls;
 using MachineVision.TemplateMatch.Result;
 using System;
@@ -10,7 +11,7 @@ using System.Windows.Documents;
 
 namespace MachineVision.TemplateMatch.Service
 {
-   public class Mertology_Circle
+   public class Mertology_Circle:BindableBase
     {
 
         HObject ho_Circle, ho_Contours, ho_Contour;
@@ -19,15 +20,27 @@ namespace MachineVision.TemplateMatch.Service
         HTuple hv_MetrologyHandle = new HTuple(), hv_Index = new HTuple();
         HTuple hv_Row1 = new HTuple(), hv_Column1 = new HTuple();
         HTuple hv_Parameter = new HTuple();
-        public Mertology_Circle()
+        public Mechology_Circle_Param Param { get;}
+
+        public Mertology_Circle(Mechology_Circle_Param _param)
         {
             HOperatorSet.CreateMetrologyModel(out hv_MetrologyHandle);
+            Param = _param;
+
         }
 
         public MeasureCircleResult Run_Metrology_Circle (HObject Image, DrawObjectInfo drawObjectInfo)
         {
 
-            HOperatorSet.AddMetrologyObjectCircleMeasure(hv_MetrologyHandle, drawObjectInfo.HTuples[0], drawObjectInfo.HTuples[1],drawObjectInfo.HTuples[2], 20, 5, 1, 30, new HTuple(), new HTuple(), out hv_Index);
+            HOperatorSet.AddMetrologyObjectCircleMeasure(hv_MetrologyHandle, 
+                drawObjectInfo.HTuples[0],
+                drawObjectInfo.HTuples[1],
+                drawObjectInfo.HTuples[2], 
+                Param.Measurelenght1, 
+                Param.MeasureLenght2, 
+                Param.MeasureSigma, 
+                Param.MeasureThroshold, 
+                new HTuple(), new HTuple(), out hv_Index);
             HOperatorSet.ApplyMetrologyModel(Image, hv_MetrologyHandle);
             HOperatorSet.GetMetrologyObjectMeasures(out ho_Contours, hv_MetrologyHandle,"all", "all", out hv_Row1, out hv_Column1);
           
@@ -40,19 +53,33 @@ namespace MachineVision.TemplateMatch.Service
             if (hv_Parameter==null)
             {
                 result.message = "识别失败";
-                result.contuns= null;
+                result.Contour= null;
+                result.Contours = null;
                 return result;
             }
 
             result.row = hv_Parameter[0];
             result.column = hv_Parameter[1];
             result.radius = hv_Parameter[2];
-            result.contuns = ho_Contour;
-            result.message = $"圆心：X坐标{hv_Parameter[0]}，y坐标：{hv_Parameter[1]},半径：{hv_Parameter[2]}";
+            result.Contour = ho_Contour;
+            result.Contours = ho_Contours;
+            result.message = $"圆心：X坐标{result.column}，y坐标：{result.row},半径：{result.radius}";
 
-
+            //hv_Parameter.Dispose();
+            //ho_Contour.Dispose();
+            //ho_Contours.Dispose();
             return result;
 
+        }
+
+
+        public void clear()
+        {
+            ho_Contour.Dispose();
+            ho_Contours.Dispose();
+          
+            hv_Parameter.Dispose();
+            
         }
     }
 }

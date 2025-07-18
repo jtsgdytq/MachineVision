@@ -19,6 +19,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+
         <!--  顶部导航栏  -->
         <md:ColorZone md:ElevationAssist.Elevation="Dp2" Mode="PrimaryDark">
             <Grid>
@@ -45,7 +46,6 @@
                 <ListBox
                     x:Name="listMenuBox"
                     Grid.Column="1"
-                    Background="Transparent"
                     ItemsSource="{Binding NavigationMenuService.Items}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -97,66 +97,106 @@
                     </ListBox.ItemTemplate>
 
                     <i:Interaction.Triggers>
-
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding NavigationCommand}" CommandParameter="{Binding SelectedItem, ElementName=listMenuBox}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-
-
                 </ListBox>
             </Grid>
         </md:ColorZone>
 
-        <!--  下拉框展示子菜单  -->
-        <md:DrawerHost Grid.Row="1" IsTopDrawerOpen="{Binding IsOpenDialog}">
+        <!--  主内容区域 - 添加点击事件来关闭菜单  -->
+        <Grid Grid.Row="1">
+            <ContentControl x:Name="MainViewContentControl" prism:RegionManager.RegionName="MainViewRegion" />
+
+            <!--  点击遮罩层 - 当菜单打开时显示，点击时关闭菜单  -->
+            <Border Background="Transparent">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsOpenDialog}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding CloseMenuCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Border>
+        </Grid>
+
+        <!--  下拉菜单 - 覆盖在第二行上方  -->
+        <md:DrawerHost
+            Grid.Row="1"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            IsTopDrawerOpen="{Binding IsOpenDialog}">
             <md:DrawerHost.TopDrawerContent>
-                <ItemsControl ItemsSource="{Binding NavigationMenuService.Items[0].Items}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                <Border
+                    md:ElevationAssist.Elevation="Dp4"
+                    Background="White"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0,0,0,1">
+                    <ItemsControl Margin="20" ItemsSource="{Binding NavigationMenuService.Items[0].Items}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
 
-                                <TextBlock
-                                    Margin="15,10"
-                                    FontWeight="Bold"
-                                    Text="{Binding Name}" />
+                                    <TextBlock
+                                        Margin="15,10"
+                                        FontSize="14"
+                                        FontWeight="Bold"
+                                        Foreground="#333333"
+                                        Text="{Binding Name}" />
 
-                                <ItemsControl
-                                    Grid.Row="1"
-                                    Margin="10"
-                                    ItemsSource="{Binding Items}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Columns="2" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl
+                                        Grid.Row="1"
+                                        Margin="10"
+                                        ItemsSource="{Binding Items}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="2" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
 
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Button Margin="5" Content="{Binding Name}" />
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Height="35"
+                                                    Margin="5"
+                                                    HorizontalAlignment="Stretch"
+                                                    Content="{Binding Name}"
+                                                    Style="{StaticResource MaterialDesignFlatButton}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Click">
+                                                            <i:InvokeCommandAction Command="{Binding DataContext.MenuItemClickCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" />
+
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
             </md:DrawerHost.TopDrawerContent>
         </md:DrawerHost>
-
-        <ContentControl
-            x:Name="MainViewContentControl"
-            Grid.Row="1"
-            prism:RegionManager.RegionName="MainViewRegion" />
     </Grid>
 </Window>

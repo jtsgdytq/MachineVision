@@ -19,8 +19,14 @@ namespace MachineVision.Ocr.ViewModel
             this.barCodeService = barCodeService;
 
             RunCommand = new DelegateCommand(Run);
-        }
+            ClearCommand = new DelegateCommand(() =>
+            {
+                Result = null;
+                Image = null;
 
+            });
+        }
+        public DelegateCommand ClearCommand { get; set; }
         
 
         private readonly BarCodeService barCodeService;

@@ -3,6 +3,7 @@ using MachineVision.Core.Ocr;
 using MachineVision.Core.TemplateMatch;
 using MachineVision.Core.TemplateMatch.TemplateModel.NccModel;
 using MachineVision.Core.TemplateMatch.TemplateModel.ShapeModel;
+using MachineVision.Measure.Service;
 using MachineVision.Model;
 using MachineVision.Service;
 using MachineVision.TemplateMatch.Service;
@@ -64,6 +65,7 @@ namespace MachineVision
             services.Register<BarCodeService>();
             services.Register<QrCodeService>();
             services.Register<Mertology_Circle>();
+            services.RegisterSingleton<Mechology_Circle_Param>();
 
         }
 

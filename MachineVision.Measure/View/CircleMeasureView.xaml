@@ -18,7 +18,7 @@
             <TextBlock
                 FontSize="25"
                 FontWeight="Bold"
-                Text="Match" />
+                Text="Circle Measure" />
         </StackPanel>
 
         <Grid Grid.Row="1" Cursor="">
@@ -47,175 +47,67 @@
                                 <Expander Background="Transparent" Header="模板匹配参数">
 
                                     <StackPanel>
-                                        <TextBlock Text="图像金字塔：Numberlever" />
+                                        <TextBlock Text="Measurelenght1" />
                                         <ComboBox
                                             Padding="5"
-                                            SelectedIndex="0"
                                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                            Text="{Binding MatchService.CreateNcc.NumLevels}">
-                                            <ComboBoxItem>ColumnRef</ComboBoxItem>
-                                            <ComboBoxItem>RowRef</ComboBoxItem>
-                                            <ComboBoxItem>Area</ComboBoxItem>
-                                            <ComboBoxItem Content="auto" />
-                                            <ComboBoxItem Content="1" />
-                                            <ComboBoxItem Content="2" />
-                                            <ComboBoxItem Content="3" />
-                                            <ComboBoxItem Content="4" />
+                                            Text="{Binding Param.Measurelenght1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+
                                             <ComboBoxItem Content="5" />
-                                            <ComboBoxItem Content="6" />
-                                            <ComboBoxItem Content="7" />
-                                            <ComboBoxItem Content="8" />
-                                            <ComboBoxItem Content="9" />
                                             <ComboBoxItem Content="10" />
+                                            <ComboBoxItem Content="20" />
+                                            <ComboBoxItem Content="30" />
+
 
                                         </ComboBox>
-                                        <TextBlock Text="起始角度：AngleStart" />
-                                        <TextBox
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.CreateNcc.AngleStart}" />
-                                        <TextBlock Text="角度范围：AngleExtent" />
-                                        <TextBox
-                                            Padding="5"
-                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                            Text="{Binding MatchService.CreateNcc.AngleExtent}" />
-                                        <TextBlock Text="角度步长：AngleStep" />
+
+                                        <TextBlock Text="Measurelenght2" />
                                         <ComboBox
                                             Margin="0,5"
                                             Padding="5"
                                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                            Text="{Binding MatchService.CreateNcc.AngleStep}">
-                                            <ComboBoxItem>auto</ComboBoxItem>
-                                            <ComboBoxItem>0.01</ComboBoxItem>
-                                            <ComboBoxItem>0.03</ComboBoxItem>
-                                            <ComboBoxItem>0.05</ComboBoxItem>
-                                            <ComboBoxItem>0.06</ComboBoxItem>
-                                            <ComboBoxItem>0.08</ComboBoxItem>
-                                            <ComboBoxItem>ColumnRef</ComboBoxItem>
-                                            <ComboBoxItem>RowRef</ComboBoxItem>
-                                            <ComboBoxItem>Area</ComboBoxItem>
+                                            Text="{Binding Param.MeasureLenght2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBoxItem>3</ComboBoxItem>
+                                            <ComboBoxItem>5</ComboBoxItem>
+                                            <ComboBoxItem>10</ComboBoxItem>
+
                                         </ComboBox>
 
-                                        <TextBlock Text="Metric" />
+                                        <TextBlock Text="MeasureSigma" />
                                         <ComboBox
                                             Margin="0,5"
                                             Padding="5"
                                             Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                            Text="{Binding MatchService.CreateNcc.Metric}">
-                                            <ComboBoxItem>use_polarity</ComboBoxItem>
-                                            <ComboBoxItem>ignore_global_polarity</ComboBoxItem>
-                                            <ComboBoxItem>ColumnRef</ComboBoxItem>
-                                            <ComboBoxItem>RowRef</ComboBoxItem>
-                                            <ComboBoxItem>Area</ComboBoxItem>
+                                            Text="{Binding Param.MeasureSigma, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBoxItem>0.4</ComboBoxItem>
+                                            <ComboBoxItem>0.6</ComboBoxItem>
+                                            <ComboBoxItem>0.8</ComboBoxItem>
+                                            <ComboBoxItem>1</ComboBoxItem>
+                                            <ComboBoxItem>1.5</ComboBoxItem>
+                                            <ComboBoxItem>2</ComboBoxItem>
+                                            <ComboBoxItem>3</ComboBoxItem>
+                                        </ComboBox>
+                                        <TextBlock Text="MeasureThroshold" />
+                                        <ComboBox
+                                            Margin="0,5"
+                                            Padding="5"
+                                            Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                            Text="{Binding Param.MeasureThroshold, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBoxItem>10</ComboBoxItem>
+                                            <ComboBoxItem>20</ComboBoxItem>
+                                            <ComboBoxItem>30</ComboBoxItem>
+                                            <ComboBoxItem>40</ComboBoxItem>
+                                            <ComboBoxItem>50</ComboBoxItem>
+                                            <ComboBoxItem>60</ComboBoxItem>
+                                            <ComboBoxItem>70</ComboBoxItem>
                                         </ComboBox>
 
-                                        <Button
-                                            Command="{Binding AddTemplateCommand}"
-                                            Content="添加模板"
-                                            Cursor="Hand" />
+
                                     </StackPanel>
 
                                 </Expander>
 
-                                <Expander Background="Transparent">
-                                    <Expander.Header>
-                                        <Grid>
-                                            <TextBlock FontSize="16" Text="运行参数" />
-                                        </Grid>
-                                    </Expander.Header>
-                                    <Expander.Content>
-                                        <StackPanel>
-                                            <TextBlock Text="AngleStart" />
-                                            <TextBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                Text="{Binding MatchService.FindNcc.AngleStart}" />
-                                            <TextBlock Text="AngleExtent" />
-                                            <TextBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                Text="{Binding MatchService.FindNcc.AngleExtent}" />
-                                            <TextBlock Text="MinScore" />
-                                            <TextBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                Text="{Binding MatchService.FindNcc.MinScore}" />
-                                            <TextBlock Text="NumMatches" />
-                                            <ComboBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.FindNcc.NumMatches}">
-                                                <ComboBoxItem>ColumnRef</ComboBoxItem>
-                                                <ComboBoxItem>RowRef</ComboBoxItem>
-                                                <ComboBoxItem>Area</ComboBoxItem>
-                                                <ComboBoxItem>Rows</ComboBoxItem>
-                                                <ComboBoxItem>Cols</ComboBoxItem>
-                                                <ComboBoxItem>J</ComboBoxItem>
-                                                <ComboBoxItem>0</ComboBoxItem>
-                                                <ComboBoxItem>1</ComboBoxItem>
-                                                <ComboBoxItem>2</ComboBoxItem>
-                                                <ComboBoxItem>3</ComboBoxItem>
-                                                <ComboBoxItem>4</ComboBoxItem>
-                                                <ComboBoxItem>5</ComboBoxItem>
-                                                <ComboBoxItem>6</ComboBoxItem>
-                                                <ComboBoxItem>7</ComboBoxItem>
-                                                <ComboBoxItem>8</ComboBoxItem>
-                                                <ComboBoxItem>9</ComboBoxItem>
-                                                <ComboBoxItem>10</ComboBoxItem>
-                                            </ComboBox>
-                                            <TextBlock Text="MaxOverlap" />
-                                            <TextBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                Text="{Binding MatchService.FindNcc.MaxOverlap}" />
-                                            <TextBlock Text="SubPixel" />
-                                            <ComboBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.FindNcc.SubPixel}">
-                                                <ComboBoxItem>ColumnRef</ComboBoxItem>
-                                                <ComboBoxItem>RowRef</ComboBoxItem>
-                                                <ComboBoxItem>Area</ComboBoxItem>
-                                                <ComboBoxItem>Rows</ComboBoxItem>
-                                                <ComboBoxItem>Cols</ComboBoxItem>
-                                                <ComboBoxItem>J</ComboBoxItem>
-                                                <ComboBoxItem>true</ComboBoxItem>
-                                                <ComboBoxItem>false</ComboBoxItem>
-                                            </ComboBox>
-                                            <TextBlock Text="NumLevels" />
-                                            <ComboBox
-                                                Margin="0,5"
-                                                Padding="5"
-                                                Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                                                Text="{Binding MatchService.FindNcc.NumLevels}">
-                                                <ComboBoxItem>ColumnRef</ComboBoxItem>
-                                                <ComboBoxItem>RowRef</ComboBoxItem>
-                                                <ComboBoxItem>Area</ComboBoxItem>
-                                                <ComboBoxItem>Rows</ComboBoxItem>
-                                                <ComboBoxItem>Cols</ComboBoxItem>
-                                                <ComboBoxItem>J</ComboBoxItem>
-                                                <ComboBoxItem>0</ComboBoxItem>
-                                                <ComboBoxItem>1</ComboBoxItem>
-                                                <ComboBoxItem>2</ComboBoxItem>
-                                                <ComboBoxItem>3</ComboBoxItem>
-                                                <ComboBoxItem>4</ComboBoxItem>
-                                                <ComboBoxItem>5</ComboBoxItem>
-                                                <ComboBoxItem>6</ComboBoxItem>
-                                                <ComboBoxItem>7</ComboBoxItem>
-                                                <ComboBoxItem>8</ComboBoxItem>
-                                                <ComboBoxItem>9</ComboBoxItem>
-                                                <ComboBoxItem>10</ComboBoxItem>
-                                            </ComboBox>
-
-                                        </StackPanel>
-                                    </Expander.Content>
-                                </Expander>
 
                             </StackPanel>
                         </ScrollViewer>
@@ -245,12 +137,12 @@
                     <StackPanel Margin="10">
                         <DockPanel LastChildFill="False">
                             <TextBlock FontSize="14" Text="显示文本" />
-                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding MatchService.Setting.IsShowText}" />
+                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding ShowText}" />
                         </DockPanel>
 
                         <DockPanel Margin="0,15" LastChildFill="False">
-                            <TextBlock FontSize="14" Text="显示中点" />
-                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding MatchService.Setting.IsShowCenter}" />
+                            <TextBlock FontSize="14" Text="显示卡尺" />
+                            <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding ShowContour}" />
                         </DockPanel>
 
                         <!--<DockPanel LastChildFill="False">
@@ -265,61 +157,16 @@
             <!--  画面显示  -->
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.7*" />
-                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-
                 <controls:ImageEditView
                     x:Name="MyImageEditView"
                     Grid.Row="0"
                     HalconWin="{Binding HalconWindow, Mode=OneWayToSource}"
                     Image="{Binding Image}" />
                 <!--  结果显示  -->
-                <Grid Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <DataGrid
-                        AutoGenerateColumns="False"
-                        Background="Transparent"
-                        Foreground="Black"
-                        ItemsSource="{Binding Info.Results}">
-                        <DataGrid.Resources>
-                            <Style BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}" TargetType="DataGridColumnHeader">
-                                <Setter Property="Foreground" Value="Black" />
-                            </Style>
 
-                            <Style BasedOn="{StaticResource MaterialDesignDataGridCell}" TargetType="DataGridCell">
-                                <Setter Property="Foreground" Value="Black" />
-                            </Style>
-                        </DataGrid.Resources>
-
-                        <DataGrid.Columns>
-                            <DataGridTextColumn
-                                Width="*"
-                                Binding="{Binding Index}"
-                                Header="模板名称" />
-                            <DataGridTextColumn
-                                Width="*"
-                                Binding="{Binding Score}"
-                                Header="匹配分数" />
-                            <DataGridTextColumn
-                                Width="*"
-                                Binding="{Binding Row}"
-                                Header="位置X" />
-                            <DataGridTextColumn
-                                Width="*"
-                                Binding="{Binding Column}"
-                                Header="位置Y" />
-                            <DataGridTextColumn
-                                Width="*"
-                                Binding="{Binding Angle}"
-                                Header="角度" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <TextBlock Grid.Row="1" Text="{Binding Info.Message}" />
-                </Grid>
 
 
             </Grid>

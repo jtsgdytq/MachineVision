@@ -13,7 +13,9 @@ namespace MachineVision.TemplateMatch.Result
         public HTuple column { get; set; } // Column coordinate of the center of the circle
         public HTuple radius { get; set; } // Radius of the circle
 
-        public HObject contuns { get; set; } // Contour of the circle
+        public HObject Contour { get; set; } // Contour of the circle
+
+        public HObject Contours { get; set; }
 
 
         public string message { get; set; } // Message or status related to the measurement result
